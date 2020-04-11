@@ -1,40 +1,34 @@
 module.exports = function(RED) {
     function teachableMachine(config) {
+        /* Initial Setup */
         // Simulate real HTML
-        const jsdom = require('jsdom');
-        const {JSDOM} = jsdom;
-        global.dom = new JSDOM('<!doctype html><html></html>');
-        global.window = dom.window;
+        const {JSDOM} = require('jsdom');;
+        dom = new JSDOM('<!doctype html><html></html>');
         global.document = dom.window.document;
-        global.navigator = global.window.navigator;
 
         // Require basic libraries
-        var tm = require('@teachablemachine/image');
-        var Canvas = require('canvas');
-        global.fetch  = require('node-fetch');
+        tmImage = require('@teachablemachine/image');
+        Canvas = require('canvas');
+        fetch  = require('node-fetch');
+        // Teachable Machine needs global scope of HTMLVideoElement class to do a check
+        global.HTMLVideoElement = class HTMLVideoElement {};
 
-        class HTMLVideoElement {
-            constructor(height, width) {
-                this.height = height;
-                this.width = width;
-            }
-        }
-        global.HTMLVideoElement = HTMLVideoElement;
-
+        /* Node-RED Node Code Creation */
         RED.nodes.createNode(this, config);
         
-        this.modelUrl = config.modelUrl || "";
-        // this.threshold = config.threshold;
-        this.top1 = config.top1;
-
         var node = this;
 
+        node.modelUrl = config.modelUrl || "";
+        node.output = config.output;
+        // node.threshold = config.threshold;
+
+        // Loads the Model from an Teachable Machine URL
         async function loadModel(url) {
 			try {
                 const modelURL = url + 'model.json';
                 const metadataURL = url + 'metadata.json';
-                node.model = await tm.load(modelURL, metadataURL);
-		    	node.ready = true;
+                node.model = await tmImage.load(modelURL, metadataURL);
+		    	node.modelReady = true;
 		    	node.status({fill:'green', shape:'dot', text:'model loaded'});
 		    } catch (error) {
 		    	node.status({fill:'red', shape:'dot', text:'model not loaded'});
@@ -42,13 +36,14 @@ module.exports = function(RED) {
 		    }
         }
 
-        async function infer(msg) {
+        // Converts the image, makes inference and treats predictions
+        async function inference(msg) {
             node.status({fill:'blue', shape:'ring', text:'infering...'});
             image = new Canvas.Image;
-            image.src = msg.payload;
+            image.src = msg.image;
             predictions = await node.model.predict(image);
 
-            // Find the Top-1
+            // Save the best prediction
             className = "";
             probability = 0;
             for (var i = 0; i < predictions.length; i++) {
@@ -58,30 +53,31 @@ module.exports = function(RED) {
                 }
             }
 
-            if (node.top1) {
-                msg.payload = {
-                    "className": className,
-                    "probability": probability
-                }
-            } else {
+            if (node.output=="best") {
+                msg.payload = {"className": className, "probability": probability};
+            } else if (node.output=="all") {
                 msg.payload = predictions;
+            } else {  // TODO add top-5, top-n 
+                msg.payload = {};
             }
 
+            // Update node status
             msg.classes = node.model.getClassLabels();
             percentage = probability.toFixed(2)*100;
             statusText = percentage.toString() + '% - ' + className;
             node.status({fill:'green', shape:'dot', text:statusText});
+
             node.send(msg);
         }
 
         node.status({fill:'yellow', shape:'ring', text:'loading model...'});
-        loadModel(node.modelUrl);
+        setTimeout(function(){loadModel(node.modelUrl)}, 500);  // Delay 500ms
 
         node.on('input', function(msg) {
-            // node.threshold = msg.threshold || node.threshold || 0.5;
             try {
-                if (node.ready && node.modelUrl != "") {
-                    infer(msg);
+                if (node.modelReady && node.modelUrl != "") {
+                    msg.image = msg.payload;
+                    inference(msg);
                 } else {
                 	node.error("model is not ready")
                 }
