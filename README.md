@@ -1,5 +1,5 @@
 # node-red-contrib-teachable-machine
-A Node-RED](https://nodered.org) node based in [tensorFlow.js](https://www.tensorflow.org/js) that enables to run custom trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool.
+A [Node-RED](https://nodered.org) node based in [tensorFlow.js](https://www.tensorflow.org/js) that enables to run custom trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool.
 
 ## Install
 Use `Manage Palette` option in `Node-RED` Menu or run the following command in your `Node-RED` user directory (typically `~/.node-red`).
@@ -16,7 +16,7 @@ Once trained the model, click on the `Export Model` button and select `Tensorflo
 ![upload_teachable](https://user-images.githubusercontent.com/37800834/79056723-8431a100-7c59-11ea-9488-346f4f8e6004.png)
 
 ### Step 3
-Paste the saved URL into the node. That URL hosts all the information to load your trained model.
+Paste the saved URL into the node configuration. That URL hosts all the information to load your trained model.
 ![model_URL](https://user-images.githubusercontent.com/37800834/79056644-ec33b780-7c58-11ea-9b69-8e8d4fbfda0c.png)
 
 ### Step 4 
