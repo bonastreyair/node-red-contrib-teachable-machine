@@ -7,7 +7,7 @@
         </dl>
     <h3>Outputs</h3>
         <dl class="message-properties">    
-            <dt>payload<span class="property-type">object or array</span></dt>
+            <dt>payload<span class="property-type">object | array</span></dt>
                 <ul>
                     <li><code>nameClass</code> name of the class - string</li>
                     <li><code>probability</code> precision - float (0 - 1)</li>
@@ -30,16 +30,23 @@
         <label for="node-input-modelUrl"><i class="fa fa-globe"></i> Model URL</label>
         <input type="text" id="node-input-modelUrl" placeholder="Set a model url">
     </div>
+    <!-- Save Image Checkbox -->
+    <div class="form-row">
+        <label for="node-input-output"><i class="fa fa-sign-out"></i> Output</label>
+        <select type="text" id="node-input-output">
+            <option value="best" selected> Best prediction</option>
+            <option value="all"> All predictions</option>
+        </select>
+    </div>
+<!--     <div class="form-row">
+        <label for="node-input-checkbox"><i class="fa fa-list-ol"></i> Predictions</label>
+        <input type="checkbox" id="node-input-checkbox" style="display:inline-block; width:20px; vertical-align:baseline;"> text that explains checkbox<code>msg.payload</code>
+    </div> -->
     <!-- Set Classification Threshold -->
 <!--     <div class="form-row">
         <label for="node-input-threshold"><i class="fa fa-signal"></i> Threshold</label>
         <input type="text" id="node-input-threshold" placeholder="e.g. 0 - 1">
-    </div> -->
-    <!-- Save Image Checkbox -->
-    <div class="form-row">
-        <label for="node-input-top1"><i class="fa fa-picture-o"></i> Top-1</label>
-        <input type="checkbox" id="node-input-top1" style="display:inline-block; width:20px; vertical-align:baseline;"> save best prediction in <code>msg.payload</code>
-    </div>
+    </div>  -->
     <!-- Set the Name of the Node -->
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -54,9 +61,9 @@
         defaults: {
             name: {value: ""},
             modelUrl: {value: "", required: true},
-            // threshold: {value: 0.5},
-            top1: {value: true}
-        },
+            output: {value: "best", required: true},
+            // threshold: {value: 0.5}, 
+        },  
         inputs: 1,
         outputs: 1,
         icon: "tfjs.png",

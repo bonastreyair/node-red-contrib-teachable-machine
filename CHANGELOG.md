@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.1] - 2020-04-11
+### Added
+ * Comments in the code
+
+### Changed
+ * Downgraded `@tensorflow/tfjs-node` from version `v1.4.0` to `v1.3.1` for better compatibility
+ * Output has changed from `checkbox` to a `list`, you can now select `Best predictions` or `All predictions`
+ * Code cleaning
+
+### Fixed
+ * WebGL loading error in JSDOM
+ * When installing the node -> `npm WARN @teachablemachine/image@0.8.4 requires a peer of @tensorflow/tfjs@1.3.1 but none is installed`
+
+
 ## [0.1.0] - 2020-04-11
 ### Added
  * Functional using Teachable Machine Online Model URL
