@@ -1,0 +1,67 @@
+<script type="text/html" data-help-name="teachable machine">
+    <p>A <a href="https://www.tensorflow.org/js" target = "_new">TensorFlow.js</a> node to run custom trained <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a> image classification online models.</p>
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload<span class="property-type">image buffer</span></dt>
+                <dd>A binary buffer of an image</dd>
+        </dl>
+    <h3>Outputs</h3>
+        <dl class="message-properties">    
+            <dt>payload<span class="property-type">object or array</span></dt>
+                <ul>
+                    <li><code>nameClass</code> name of the class - string</li>
+                    <li><code>probability</code> precision - float (0 - 1)</li>
+                </ul>
+            <dt>classes<span class="property-type">array</span></dt>
+                <dd>All the possible class names in a list</dd>
+        </dl>
+    <h3>Configuration</h3>
+        <dl class="message-properties">  
+            <dt>Model URL<span class="property-type">string</span></dt>
+                <dd>Obtained from the Teachable Machine model upload</dd>
+            <dt>Top-1<span class="property-type">checkbox</span></dt>
+                <dd>Enables a filter for just the best prediction</dd>
+        </dl>
+</script>
+  
+<script type="text/html" data-template-name="teachable machine">
+    <!-- Set Model URL -->
+    <div class="form-row">
+        <label for="node-input-modelUrl"><i class="fa fa-globe"></i> Model URL</label>
+        <input type="text" id="node-input-modelUrl" placeholder="Set a model url">
+    </div>
+    <!-- Set Classification Threshold -->
+<!--     <div class="form-row">
+        <label for="node-input-threshold"><i class="fa fa-signal"></i> Threshold</label>
+        <input type="text" id="node-input-threshold" placeholder="e.g. 0 - 1">
+    </div> -->
+    <!-- Save Image Checkbox -->
+    <div class="form-row">
+        <label for="node-input-top1"><i class="fa fa-picture-o"></i> Top-1</label>
+        <input type="checkbox" id="node-input-top1" style="display:inline-block; width:20px; vertical-align:baseline;"> save best prediction in <code>msg.payload</code>
+    </div>
+    <!-- Set the Name of the Node -->
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('teachable machine',{
+        category: 'analysis-function',
+        color: '#ED782F',
+        defaults: {
+            name: {value: ""},
+            modelUrl: {value: "", required: true},
+            // threshold: {value: 0.5},
+            top1: {value: true}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "tfjs.png",
+        label: function() {
+            return this.name || "teachable machine";
+        }
+    });
+</script>
