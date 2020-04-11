@@ -9,7 +9,7 @@ module.exports = function(RED) {
         // Require basic libraries
         tmImage = require('@teachablemachine/image');
         Canvas = require('canvas');
-        fetch  = require('node-fetch');
+        global.fetch = require('node-fetch');
         // Teachable Machine needs global scope of HTMLVideoElement class to do a check
         global.HTMLVideoElement = class HTMLVideoElement {};
 

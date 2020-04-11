@@ -1,4 +1,7 @@
 # Changelog
+## [Unreleased] - 2020-04-12
+### Fixed
+ * Loading model error `response.arrayBuffer is not a function` found in issue [#3](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/3)
 
 ## [0.1.1] - 2020-04-11
 ### Added
