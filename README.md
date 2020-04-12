@@ -19,16 +19,16 @@ You have two options to install the node.
 
 ## Node usage
 ### Step 1
-Go to [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) and follow the steps to train your custom classification model.
+Go to [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) and follow the steps to train your custom classification model. Once trained click on the `Export Model` button.
 ![teachable_machine](https://user-images.githubusercontent.com/37800834/79070802-4c1d7300-7cd8-11ea-9c12-03e1d7d8b01d.png)
 
 ### Step 2 
-Once trained the model, click on the `Export Model` button and select `Tensorflow.js` format. Then upload your trained model for free and copy the generated URL. 
+Select `Tensorflow.js` format and upload your trained model (for free). Once it is uploaded and copy the generated URL. 
 ![upload_teachable](https://user-images.githubusercontent.com/37800834/79056723-8431a100-7c59-11ea-9488-346f4f8e6004.png)
 
 ### Step 3
-Paste the saved URL into the node configuration. That URL hosts all the information to load your trained model. Make sure you copy all the URL including the `https://`.
-![model_URL](https://user-images.githubusercontent.com/37800834/79056644-ec33b780-7c58-11ea-9b69-8e8d4fbfda0c.png)
+Paste the saved URL into the node configuration. That URL hosts all the information to load your trained model. Make sure you copy all the given URL including the `https://...`.
+![settings-node](https://user-images.githubusercontent.com/37800834/79074021-3ca72580-7cea-11ea-8b34-92e5970f02e6.png)
 
 ### Step 4 
 In `Node-RED` send a buffered image to the node. Check the example in the `Import` section.
