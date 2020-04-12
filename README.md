@@ -8,14 +8,14 @@ A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tens
 
 ## Install
 You have two options to install the node.
- * Using `Manage palette` option in `Node-RED` Menu
+ * Use `Manage palette` option in `Node-RED` Menu
 ![manage_pallete](https://user-images.githubusercontent.com/37800834/79070482-740bd700-7cd6-11ea-93d3-646c0bf418d1.png)
 
- * Running the `npm` command in your `Node-RED` user directory (typically `~/.node-red`) 
+ * Run the following command in your Node-RED user directory - typically `~/.node-red`
  ```
  npm install node-contrib-teachable-machine
  ```
-**NOTE**: You need to restart `Node-RED` after installation. If installation goes wrong please open an [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
+**Note:** You need to restart `Node-RED` after installation. If installation goes wrong please open an [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
 
 ## Node usage
 ### Step 1
@@ -37,6 +37,6 @@ In `Node-RED` send a buffered image to the node. Check the example in the `Impor
 * `Node-RED v1.0.0+`
 * Supported OS: MacOSX Catalina, Windows 10, Ubuntu 18.04
 
-**NOTE**: This not is not working using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) since it is based on Alpine and it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
+**Note:** This not is not working using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) since it is based on Alpine and it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
 
 Inspired by [@dceejay](https://github.com/dceejay) with [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/).
