@@ -1,10 +1,24 @@
 # Changelog
+## [0.1.3] - 2020-04-12
+### Added
+ * Use of badges in `README` file
+ * New images for _Installation_ and _Node usage_ in `README`
+ * `JavaScript` code has been standarized following [Standard JS](https://standardjs.com/index.html)
+
+### Changed
+ * Information on HTML node [#5](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/5)
+
+### Fixed
+ * Typos on `README`
+ * `basic` example with issues to load
+ * Errors not shown on console or in `Node-RED`
+
 ## [0.1.2] - 2020-04-12
 ### Added
  * Improvements on `README` file
 
 ### Fixed
- * Loading model error `response.arrayBuffer is not a function` found in issue [#3](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/3)
+ * Loading model error `response.arrayBuffer is not a function` [#3](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/3)
 
 ## [0.1.1] - 2020-04-11
 ### Added
