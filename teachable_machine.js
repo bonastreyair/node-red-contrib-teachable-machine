@@ -32,6 +32,7 @@ module.exports = function (RED) {
         node.status({ fill: 'green', shape: 'dot', text: 'model loaded' })
       } catch (error) {
         node.status({ fill: 'red', shape: 'dot', text: 'model not loaded' })
+        node.error(error)
         console.log(error)
       }
     }
@@ -83,6 +84,7 @@ module.exports = function (RED) {
         }
       } catch (error) {
         node.error(error)
+        console.log(error)
       }
     })
 
