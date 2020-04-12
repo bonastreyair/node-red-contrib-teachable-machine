@@ -1,4 +1,9 @@
 # node-red-contrib-teachable-machine
+[![platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
+[![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
+[![GitHub version](https://badge.fury.io/gh/bonastreyair%2Fnode-red-contrib-teachable-machine.svg)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/CHANGELOG.md)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 A [Node-RED](https://nodered.org) node based in [tensorFlow.js](https://www.tensorflow.org/js) that enables to run custom trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool.
 
 ## Install
