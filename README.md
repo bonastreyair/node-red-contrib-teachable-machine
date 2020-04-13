@@ -1,6 +1,7 @@
 # node-red-contrib-teachable-machine
 [![platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
-[![GitHub version](https://badge.fury.io/gh/bonastreyair%2Fnode-red-contrib-teachable-machine.svg)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/CHANGELOG.md)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/bonastreyair/node-red-contrib-teachable-machine)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/CHANGELOG.md)
+[![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/archive/master.zip)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
 
@@ -37,6 +38,6 @@ In `Node-RED` send a buffered image to the node. Check the example in the `Impor
 * `Node-RED v1.0.0+`
 * Supported OS: MacOSX Catalina, Windows 10, Ubuntu 18.04
 
-**Note:** Using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) does not work since it is based on Alpine and it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
+**Note:** Using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) does not work since it is based on Alpine as it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
 
 Inspired by [@dceejay](https://github.com/dceejay) with [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/).
