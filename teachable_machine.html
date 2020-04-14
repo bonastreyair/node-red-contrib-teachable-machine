@@ -53,20 +53,21 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('teachable machine',{
-        category: 'analysis-function',
-        color: '#ED782F',
-        defaults: {
-            name: {value: ""},
-            modelUrl: {value: "", required: true},
-            output: {value: "best", required: true},
-            // threshold: {value: 0.5}, 
-        },  
-        inputs: 1,
-        outputs: 1,
-        icon: "tfjs.png",
-        label: function() {
-            return this.name || "teachable machine";
-        }
-    });
+  RED.nodes.registerType('teachable machine',
+  {
+    category: 'analysis-function',
+    color: '#ED782F',
+    defaults: {
+      name: { value: '' },
+      modelUrl: { value: '', required: true },
+      output: { value: 'best', required: true }
+      // threshold: {value: 0.5},
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'tensorflow_logo.png',
+    label: function () {
+      return this.name || 'teachable machine'
+    }
+  })
 </script>

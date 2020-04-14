@@ -1,4 +1,12 @@
 # Changelog
+## [Unreleased]
+### Added
+ * Added total npm downloads badge
+
+### Changed
+ * Tensorflow node logo updated to 2.0
+ * Using all `README` badges from [Shields.io](https://shields.io/)
+
 ## [0.1.3] - 2020-04-12
 ### Added
  * Use of badges in `README` file
