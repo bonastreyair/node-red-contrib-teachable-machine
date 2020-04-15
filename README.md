@@ -49,4 +49,4 @@ In `Node-RED` send a buffered image to the node. Check the example in the `Impor
 **Note:** Using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) does not work since it is based on Alpine as it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
 
 ## Mentions
- * [@dceejay](https://github.com/dceejay): where inspiration came from with [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/)
+ * [@dceejay](https://github.com/dceejay): who inspired me thanks to node [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/)

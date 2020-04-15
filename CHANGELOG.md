@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
  	* Threshold in % - (0 -> 100%)
  	* Max. results - (1 -> 5)
  * General code optimitzations
+ * Mentions section in `README` file
 
 ### Changed
  * Tensorflow node logo updated to 2.0
