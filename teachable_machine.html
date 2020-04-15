@@ -1,3 +1,54 @@
+<!-- Node Configuration Templates -->
+<script type="text/html" data-template-name="teachable machine">
+    <div class="form-row">
+        <label for="node-input-mode"><i class="fa fa-file"></i> Mode</label>
+        <select style="width: 160px;" type="text" id="node-input-mode">
+            <option value="online" selected> Online</option>
+            <option value="local"> Local</option>
+        </select>
+    </div>
+
+    <div class="node-row-msg-online">
+        <div class="form-row node-row-online">
+            <label for="node-input-modelUrl" style="margin-left: 20px; width: 80px;"><i class="fa fa-globe"></i> URL</label>
+            <input type="text" id="node-input-modelUrl" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
+        </div>
+    </div>  
+
+    <div class="node-row-msg-local">
+        <div class="form-row node-row-local">
+            <label for="node-input-localModel" style="margin-left: 20px; width: 80px;"><i class="fa fa-floppy-o"></i> Model</label>
+                <select style="width: 160px;" type="text" id="node-input-localModel">
+                    <option value="teachable_model" selected>Not supported yet</option>
+                </select>
+        </div>       
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-output"><i class="fa fa-sign-out"></i> Output</label>
+        <select style="width: 160px;" type="text" id="node-input-output">
+            <option value="best" selected>Best prediction</option>
+            <option value="all">All predictions</option>
+        </select>
+    </div>
+
+    <div class="node-row-msg-filters">
+        <label for="node-input-filters" style="margin-left: 20px; width: 80px;"><i class="fa fa-filter" ></i> Filters</label>
+            <input type="checkbox" id="node-input-activeThreshold" style="display:inline-block; margin-left:20px; width:20px; vertical-align:baseline;"> 
+            <label for="node-input-threshold" style="width: 80px;">threshold %</label>
+            <input type="text" id="node-input-threshold" style="width: 40px;" placeholder="80"><br><label style="margin-left: 20px; width: 80px;"></label>
+            <input type="checkbox" id="node-input-activeMaxResults" style="display:inline-block; margin-left: 20px; width:20px; vertical-align:baseline;"> 
+            <label for="node-input-maxResults" style="width: 80px;">max. results</label>
+            <input type="text" id="node-input-maxResults" style="width: 40px;" placeholder="3">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<!-- Information Help Menu -->
 <script type="text/html" data-help-name="teachable machine">
     <p>A <a href="https://www.tensorflow.org/js" target = "_new">tensorflow.js</a> node to run custom trained <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a> image classification online models.</p>
     <h3>Inputs</h3>
@@ -7,7 +58,7 @@
         </dl>
     <h3>Outputs</h3>
         <dl class="message-properties">    
-            <dt>payload<span class="property-type">object | array</span></dt>
+            <dt>payload<span class="property-type">array</span></dt>
                 <dd><ul>
                     <li><code>nameClass</code> <i>string</i></li>
                     <li><code>probability</code> <i>float</i></li>
@@ -19,55 +70,44 @@
         <p>You must set the Model URL obtained from the uploaded model in the <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a>.</p>
         <p>You can set the <code>msg.payload</code> to be the best result as one <code>json</code> object or to be an array of all <code>json</code> results. The results will not be ordered by probability.</p>
         <p>Probability is defined as <code>%</code> and the range goes from <code>0</code> to <code>1</code>.
-
-</script>
-  
-<script type="text/html" data-template-name="teachable machine">
-    <!-- Set Model URL -->
-    <div class="form-row">
-        <label for="node-input-modelUrl"><i class="fa fa-globe"></i> Model URL</label>
-        <input type="text" id="node-input-modelUrl" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
-    </div>
-    <!-- Save Image Checkbox -->
-    <div class="form-row">
-        <label for="node-input-output"><i class="fa fa-sign-out"></i> Output</label>
-        <select type="text" id="node-input-output">
-            <option value="best" selected> Best prediction</option>
-            <option value="all"> All predictions</option>
-        </select>
-    </div>
-    <!--     <div class="form-row">
-        <label for="node-input-checkbox"><i class="fa fa-list-ol"></i> Predictions</label>
-        <input type="checkbox" id="node-input-checkbox" style="display:inline-block; width:20px; vertical-align:baseline;"> text that explains checkbox<code>msg.payload</code>
-    </div> -->
-    <!-- Set Classification Threshold -->
-    <!--     <div class="form-row">
-        <label for="node-input-threshold"><i class="fa fa-signal"></i> Threshold</label>
-        <input type="text" id="node-input-threshold" placeholder="e.g. 0 - 1">
-    </div>  -->
-    <!-- Set the Name of the Node -->
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
 </script>
 
+<!-- Node JavaScript Registration -->
 <script type="text/javascript">
   RED.nodes.registerType('teachable machine',
   {
     category: 'analysis-function',
     color: '#ED782F',
     defaults: {
-      name: { value: '' },
-      modelUrl: { value: '', required: true },
-      output: { value: 'best', required: true }
-      // threshold: {value: 0.5},
+        name: { value: '' },
+        mode: { value: 'online' },
+        modelUrl: { value: '', required: true },
+        output: { value: 'best', required: true },
+        localModel: { value: 'teachable_model' },
+        activeThreshold: { value: false },
+        threshold: { value: 80, validate: function(v) { return RED.validators.number(v) && (v > 0) && (v < 100)}},
+        activeMaxResults: { value: false },
+        maxResults: { value: 3, validate: function(v) { return RED.validators.number(v) && (v > 0) && (v < 5)}}
     },
     inputs: 1,
     outputs: 1,
     icon: 'tensorflow_logo.png',
     label: function () {
       return this.name || 'teachable machine'
+    },
+    oneditprepare: function() {
+        $("#node-input-threshold").spinner({ min: 0, max: 100})
+        $("#node-input-maxResults").spinner({ min: 1, max: 5})
+        $("#node-input-mode").on("change", function(e) {
+            var val = $(this).val()
+            $(".node-row-msg-online").toggle(val==="online")
+            $(".node-row-msg-local").toggle(val==="local")
+        })
+        $("#node-input-output").on("change", function(e) {
+            var val = $(this).val()
+            $(".node-row-msg-filters").toggle(val==="all")
+        })
+
     }
   })
 </script>

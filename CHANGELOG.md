@@ -1,7 +1,12 @@
 # Changelog
+All notable changes to this project will be documented in this file.
+
 ## [Unreleased]
 ### Added
- * Added total npm downloads badge
+ * Total npm downloads badge
+ * Online/Local options in configuration node (Local still not functional)
+ * Internal common functions to set node states
+ * Threshold option filter
 
 ### Changed
  * Tensorflow node logo updated to 2.0
@@ -63,8 +68,5 @@
  * CHANGELOG.md file
  * README.md file
 
-
-All notable changes to this project will be documented in this file.
-Maintained by [@bonastreyair](https://github.com/bonastreyair)
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).

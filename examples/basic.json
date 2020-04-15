@@ -1,50 +1,50 @@
 [
     {
-        "id": "ac23a936.06d64",
-        "type": "inject",
-        "z": "5d04168c.77247",
-        "name": "test",
-        "topic": "",
-        "payload": "0",
-        "payloadType": "num",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 230,
-        "y": 160,
-        "wires": [
-            [
-                "ee7a25d0.87ce78"
-            ]
-        ]
-    },
-    {
-        "id": "ee7a25d0.87ce78",
+        "id": "c6878bbc.90306",
         "type": "http request",
-        "z": "5d04168c.77247",
+        "z": "db7a43a9.53e3c",
         "name": "",
         "method": "GET",
         "ret": "bin",
         "paytoqs": false,
-        "url": "https://loremflickr.com/320/240/person",
+        "url": "https://loremflickr.com/320/240/sport",
         "tls": "",
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 370,
-        "y": 160,
+        "x": 390,
+        "y": 180,
         "wires": [
             [
-                "d9df04d2.2f2148",
-                "45323826.91117"
+                "8ee27c26.7cb15",
+                "bfe5b0cf.8781e8"
             ]
         ]
     },
     {
-        "id": "9f358d0b.51d97",
+        "id": "fa420bdc.91bde8",
+        "type": "inject",
+        "z": "db7a43a9.53e3c",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 240,
+        "y": 180,
+        "wires": [
+            [
+                "c6878bbc.90306"
+            ]
+        ]
+    },
+    {
+        "id": "89088a53.cc06",
         "type": "debug",
-        "z": "5d04168c.77247",
+        "z": "db7a43a9.53e3c",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -52,37 +52,40 @@
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 750,
-        "y": 160,
+        "x": 790,
+        "y": 180,
         "wires": []
     },
     {
-        "id": "d9df04d2.2f2148",
+        "id": "bfe5b0cf.8781e8",
+        "type": "teachable machine",
+        "z": "db7a43a9.53e3c",
+        "name": "",
+        "mode": "online",
+        "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
+        "output": "best",
+        "localModel": "teachable_model",
+        "threshold": 50,
+        "x": 590,
+        "y": 180,
+        "wires": [
+            [
+                "89088a53.cc06"
+            ]
+        ]
+    },
+    {
+        "id": "8ee27c26.7cb15",
         "type": "image",
-        "z": "5d04168c.77247",
+        "z": "db7a43a9.53e3c",
         "name": "",
         "width": 160,
         "data": "payload",
         "dataType": "msg",
-        "thumbnail": true,
+        "thumbnail": false,
         "active": true,
-        "x": 560,
-        "y": 220,
+        "x": 580,
+        "y": 240,
         "wires": []
-    },
-    {
-        "id": "45323826.91117",
-        "type": "teachable machine",
-        "z": "5d04168c.77247",
-        "name": "",
-        "modelUrl": "https://teachablemachine.withgoogle.com/models/FIVck9WjF/",
-        "output": "all",
-        "x": 570,
-        "y": 160,
-        "wires": [
-            [
-                "9f358d0b.51d97"
-            ]
-        ]
     }
 ]
