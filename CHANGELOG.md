@@ -1,16 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.0.0] - 2020-04-15
 ### Added
  * Total npm downloads badge
  * Online/Local options in configuration node (Local still not functional)
  * Internal common functions to set node states
- * Threshold option filter
+ * Filters whe `All predictions` Output mode is selected
+ 	* Threshold in % - (0 -> 100%)
+ 	* Max. results - (1 -> 5)
+ * General code optimitzations
 
 ### Changed
  * Tensorflow node logo updated to 2.0
+ * Updated configuration node
  * Using all `README` badges from [Shields.io](https://shields.io/)
+ * Outputs is always an array of results even if `Best prediction` is selected
 
 ## [0.1.3] - 2020-04-12
 ### Added
