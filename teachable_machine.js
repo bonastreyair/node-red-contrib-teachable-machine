@@ -89,8 +89,10 @@ module.exports = function (RED) {
       return [className, probability]
     }
 
-    function getTopNPredictions (predictions) {
-      return predictions
+    function byProbabilty (predictionA, predictionB) {
+      if (predictionA.probability > predictionB.probability) return -1
+      if (predictionA.probability < predictionB.probability) return 1
+      return 0
     }
 
     // Converts the image, makes inference and treats predictions
@@ -99,19 +101,19 @@ module.exports = function (RED) {
       const image = new Canvas.Image()
       image.src = msg.image
       msg.classes = node.model.getClassLabels()
-      const predictions = await node.model.predict(image)
+      var predictions = await node.model.predict(image)
 
-      var [bestClassName, bestProbability] = getBestPrediction(predictions)
-      var percentage = bestProbability.toFixed(2) * 100
-      var bestPredictionText = percentage.toString() + '% - ' + bestClassName
+      predictions.sort(byProbabilty)
+      var percentage = predictions[0].probability.toFixed(2) * 100
+      var bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
 
       if (node.output === 'best') {
-        msg.payload = [{ className: bestClassName, probability: bestProbability }]
+        msg.payload = [{ className: predictions[0].className, probability: predictions[0].probability }]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
         var filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.probability > node.threshold / 100) : filteredPredictions
-        filteredPredictions = node.activeMaxResults ? getTopNPredictions(filteredPredictions) : filteredPredictions
+        filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
           setNodeStatus(node, bestPredictionText)

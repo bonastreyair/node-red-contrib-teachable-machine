@@ -12,8 +12,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 390,
-        "y": 180,
+        "x": 290,
+        "y": 80,
         "wires": [
             [
                 "8ee27c26.7cb15",
@@ -33,8 +33,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 240,
-        "y": 180,
+        "x": 140,
+        "y": 80,
         "wires": [
             [
                 "c6878bbc.90306"
@@ -52,27 +52,9 @@
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 790,
-        "y": 180,
+        "x": 690,
+        "y": 80,
         "wires": []
-    },
-    {
-        "id": "bfe5b0cf.8781e8",
-        "type": "teachable machine",
-        "z": "db7a43a9.53e3c",
-        "name": "",
-        "mode": "online",
-        "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
-        "output": "best",
-        "localModel": "teachable_model",
-        "threshold": 50,
-        "x": 590,
-        "y": 180,
-        "wires": [
-            [
-                "89088a53.cc06"
-            ]
-        ]
     },
     {
         "id": "8ee27c26.7cb15",
@@ -84,8 +66,29 @@
         "dataType": "msg",
         "thumbnail": false,
         "active": true,
-        "x": 580,
-        "y": 240,
+        "x": 480,
+        "y": 140,
         "wires": []
+    },
+    {
+        "id": "bfe5b0cf.8781e8",
+        "type": "teachable machine",
+        "z": "db7a43a9.53e3c",
+        "name": "",
+        "mode": "online",
+        "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
+        "output": "all",
+        "localModel": "teachable_model",
+        "activeThreshold": true,
+        "threshold": "80",
+        "activeMaxResults": true,
+        "maxResults": "3",
+        "x": 490,
+        "y": 80,
+        "wires": [
+            [
+                "89088a53.cc06"
+            ]
+        ]
     }
 ]
