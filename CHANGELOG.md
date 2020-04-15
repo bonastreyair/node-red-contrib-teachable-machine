@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2020-04-15
+### Changed
+ * Updated information help node
+
 ## [1.0.0] - 2020-04-15
 ### Added
  * Total npm downloads badge
@@ -15,7 +19,6 @@ All notable changes to this project will be documented in this file.
 ### Changed
  * Icon updated to Tensorflow 2.0 new logo
  * Updated configuration node
- * Updated information node
  * Using all `README` badges from [Shields.io](https://shields.io/)
  * Outputs is always an array of results even if `Best prediction` is selected
 
