@@ -1,11 +1,22 @@
 # Changelog
-## [Unreleased]
+All notable changes to this project will be documented in this file.
+
+## [1.0.0] - 2020-04-15
 ### Added
- * Added total npm downloads badge
+ * Total npm downloads badge
+ * Online/Local options in configuration node (Local still not functional)
+ * Internal common functions to set node status
+ * New Filters configurations when `All predictions` Output mode is selected
+ 	* Threshold in % - (0 -> 100%)
+ 	* Max. results - (1 -> 5)
+ * General code optimitzations
+ * [Mentions](https://github.com/bonastreyair/node-red-contrib-teachable-machine#mentions) section in `README` file
 
 ### Changed
- * Tensorflow node logo updated to 2.0
+ * Icon updated to Tensorflow 2.0 new logo
+ * Updated configuration node
  * Using all `README` badges from [Shields.io](https://shields.io/)
+ * Outputs is always an array of results even if `Best prediction` is selected
 
 ## [0.1.3] - 2020-04-12
 ### Added
@@ -41,7 +52,6 @@
  * WebGL loading error in JSDOM
  * When installing the node -> `npm WARN @teachablemachine/image@0.8.4 requires a peer of @tensorflow/tfjs@1.3.1 but none is installed`
 
-
 ## [0.1.1] - 2020-04-11
 ### Added
  * Comments in the code
@@ -55,7 +65,6 @@
  * WebGL loading error in JSDOM
  * When installing the node -> `npm WARN @teachablemachine/image@0.8.4 requires a peer of @tensorflow/tfjs@1.3.1 but none is installed`
 
-
 ## [0.1.0] - 2020-04-11
 ### Added
  * Functional using Teachable Machine Online Model URL
@@ -63,8 +72,5 @@
  * CHANGELOG.md file
  * README.md file
 
-
-All notable changes to this project will be documented in this file.
-Maintained by [@bonastreyair](https://github.com/bonastreyair)
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
