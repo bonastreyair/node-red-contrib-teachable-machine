@@ -13,14 +13,14 @@ A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tens
 
 ## Install
 You have two options to install the node.
- * Use `Manage palette` option in `Node-RED` Menu
+ * Use `Manage palette` option in `Node-RED` Menu (recommended)
 ![manage_pallete](https://user-images.githubusercontent.com/37800834/79070482-740bd700-7cd6-11ea-93d3-646c0bf418d1.png)
 
  * Run the following command in your Node-RED user directory - typically `~/.node-red`
  ```
  npm install node-contrib-teachable-machine
  ```
-**Note:** You need to restart `Node-RED` after installation. If installation goes wrong please open a [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
+**Note:** If you run the command you will need to restart `Node-RED` after installation. If installation goes wrong please open a [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
 
 ## Node usage
 ### Step 1
@@ -29,7 +29,7 @@ Go to [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) a
 <img src="https://user-images.githubusercontent.com/37800834/79070802-4c1d7300-7cd8-11ea-9c12-03e1d7d8b01d.png" height="300">
 
 ### Step 2 
-Select `Tensorflow.js` format and upload your trained model (for free). Once it is uploaded and copy the generated URL.
+Select `Tensorflow.js` format and upload your trained model (for free). Once it is uploaded, copy the generated URL.
 
 <img src="https://user-images.githubusercontent.com/37800834/79056723-8431a100-7c59-11ea-9488-346f4f8e6004.png" height="250">
 
