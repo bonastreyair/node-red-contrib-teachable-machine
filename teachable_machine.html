@@ -1,7 +1,7 @@
 <!-- Node Configuration Templates -->
 <script type="text/html" data-template-name="teachable machine">
     <div class="form-row">
-        <label for="node-input-mode"><i class="fa fa-file"></i> Mode</label>
+        <label for="node-input-mode"><i class="fa fa-file" style="margin-right: 6px"></i>Mode</label>
         <select style="width: 160px;" type="text" id="node-input-mode">
             <option value="online" selected> Online</option>
             <option value="local"> Local</option>
@@ -10,14 +10,14 @@
 
     <div class="node-row-msg-online">
         <div class="form-row node-row-online">
-            <label for="node-input-modelUrl" style="margin-left: 20px; width: 80px;"><i class="fa fa-globe"></i> URL</label>
+            <label for="node-input-modelUrl" style="margin-left: 20px; width: 80px;"><i class="fa fa-globe" style="margin-right: 6px;"></i>URL</label>
             <input type="text" id="node-input-modelUrl" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
         </div>
     </div>  
 
     <div class="node-row-msg-local">
         <div class="form-row node-row-local">
-            <label for="node-input-localModel" style="margin-left: 20px; width: 80px;"><i class="fa fa-floppy-o"></i> Model</label>
+            <label for="node-input-localModel" style="margin-left: 20px; width: 80px;"><i class="fa fa-floppy-o" style="margin-right: 6px;"></i>Model</label>
                 <select style="width: 160px;" type="text" id="node-input-localModel">
                     <option value="teachable_model" selected>Not supported yet</option>
                 </select>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-output"><i class="fa fa-sign-out"></i> Output</label>
+        <label for="node-input-output"><i class="fa fa-sign-out" style="margin-right: 6px;"></i>Output</label>
         <select style="width: 160px;" type="text" id="node-input-output">
             <option value="best" selected>Best prediction</option>
             <option value="all">All predictions</option>
@@ -34,18 +34,24 @@
 
     <div class="node-row-msg-filters">
         <div class="form-row node-row-filters">
-            <label for="node-input-filters" style="margin-left: 20px; width: 80px;"><i class="fa fa-filter" ></i> Filters</label>
-                <input type="checkbox" id="node-input-activeThreshold" style="display:inline-block; margin-left:20px; width:20px; vertical-align:baseline;"> 
-                <label for="node-input-threshold" style="width: 80px;">threshold %</label>
-                <input type="text" id="node-input-threshold" style="width: 40px;" placeholder="80"><br><label style="margin-left: 20px; width: 80px;"></label>
-                <input type="checkbox" id="node-input-activeMaxResults" style="display:inline-block; margin-left: 20px; width:20px; vertical-align:baseline;"> 
-                <label for="node-input-maxResults" style="width: 80px;">max. results</label>
-                <input type="text" id="node-input-maxResults" style="width: 40px;" placeholder="3">
+            <label for="node-input-filters"><i class="fa fa-filter" style="margin-right: 6px;"></i>Filters</label>
+                <label for="node-input-threshold" style="width:70%;">
+                    <input type="checkbox" id="node-input-activeThreshold" style="display:inline-block; width:22px; vertical-align:baseline;"> 
+                    <label style="width:65px;">threshold</label>
+                    <input type="text" id="node-input-threshold" style="width: 40px;" placeholder="80"> % 
+                </label>
+        <div class="form-row node-row-filters">
+            <label for="node-input-filters"></label>
+                <label for="node-input-threshold" style="width:70%;">
+                    <input type="checkbox" id="node-input-activeMaxResults" style="display:inline-block; width:22px; vertical-align:baseline;">
+                    <label style="width:65px;">maximum</label>
+                    <input type="text" id="node-input-maxResults" style="width: 40px;" placeholder="3"> predictions
+                </label>
         </div>
     </div>
 
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <label for="node-input-name"><i class="fa fa-tag" style="margin-right: 6px;"></i>Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 </script>
@@ -61,17 +67,37 @@
     <h3>Outputs</h3>
         <dl class="message-properties">    
             <dt>payload<span class="property-type">array</span></dt>
-                <dd><ul>
-                    <li><code>nameClass</code> <i>string</i></li>
-                    <li><code>probability</code> <i>float</i></li>
-                </ul></dd>
+                <dd>Objects in the array are ordered by descending probability and have the following properties:
+                    <ul>
+                        <li><code>nameClass</code> <i>string</i></li>
+                        <li><code>probability</code> <i>float (0-1)</i></li>
+                    </ul>
+                </dd>
             <dt>classes<span class="property-type">array</span></dt>
-                <dd>All the possible class names in a list</dd>
+                <dd>All the possible class names used in the model.</dd>
         </dl>
-    <h3>Details</h3>
-        <p>You must set the Model URL obtained from the uploaded model in the <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a>.</p>
-        <p>You can set the <code>msg.payload</code> to be the best result as one <code>json</code> object or to be an array of all <code>json</code> results. The results will not be ordered by probability.</p>
-        <p>Probability is defined as <code>%</code> and the range goes from <code>0</code> to <code>1</code>.
+
+    <h3>Configuration</h3>
+    <h4><i class="fa fa-file" style="margin-right: 6px"></i>Mode</h4>
+        <p>You can configure how to load the model.</p>
+        <ul>
+            <li><code>Online</code> from the pasted URL</li>
+            <li><code>Local</code> locally with files <i>(not supported)</li>
+        </ul>
+        <p>If you select the <code>Online</code> mode, you must set the URL obtained from the uploaded model in the <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a> webpage.</p>
+
+    <h4><i class="fa fa-sign-out" style="margin-right: 6px"></i>Output</h4>
+        <p>You can configure how the <code>msg.payload</code> is generated.</p>
+        <ul>
+            <li><code>Best prediction</code> only the top-1 classification result</li>
+            <li><code>All predictions</code> all predictions with enabled filters</li>
+        </ul>
+    <h4><i class="fa fa-filter" style="margin-right: 6px"></i>Filters</h4>
+        <p>You can enable or disable any of the filters when <code>All predictions</code> Output mode is selected. Filters are all aplied if enabled.
+        <ul>
+            <li><code>Threshold</code> filters only the results that are above the threshold (0-100)</li>
+            <li><code>Max. Predictions</code> limits the results to any number (1-5)</li>
+        </ul>
 </script>
 
 <!-- Node JavaScript Registration -->

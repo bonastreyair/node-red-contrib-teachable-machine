@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
  * Icon updated to Tensorflow 2.0 new logo
  * Updated configuration node
+ * Updated information node
  * Using all `README` badges from [Shields.io](https://shields.io/)
  * Outputs is always an array of results even if `Best prediction` is selected
 
