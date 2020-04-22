@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2020-04-22
+### Changed
+ * Updated image on how to use Teachable Machine and configuration node on Step 3
+ * Use standard image treatment for `README` instead of HTML
+ * Upgraded to `@tensorflow/tfjs-node v1.4.0` to enable coexistantce with [tfjs-nodes](https://github.com/dceejay/tfjs-nodes) nodes - [#8](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/8)
+
 ## [1.0.1] - 2020-04-15
 ### Changed
  * Updated information help node

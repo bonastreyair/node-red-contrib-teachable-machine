@@ -6,7 +6,7 @@ module.exports = function (RED) {
   global.document = dom.window.document
   // Require basic libraries
   const tmImage = require('@teachablemachine/image')
-  const Canvas = require('canvas')
+  const canvas = require('canvas')
   global.fetch = require('node-fetch')
   // Teachable Machine needs global scope of HTMLVideoElement class to do a check
   global.HTMLVideoElement = class HTMLVideoElement {}
@@ -98,7 +98,7 @@ module.exports = function (RED) {
     // Converts the image, makes inference and treats predictions
     async function inference (msg) {
       setNodeStatus(node, 'infering')
-      const image = new Canvas.Image()
+      const image = new canvas.Image()
       image.src = msg.image
       msg.classes = node.model.getClassLabels()
       var predictions = await node.model.predict(image)
