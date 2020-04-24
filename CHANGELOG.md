@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
  - Updated example with new configuration parameter
 
 ### Fixed
- - Selecting `Best prediction` option made the `Name` disapear
+ - Selecting `Best prediction` option made the `Name` disappear
 
 ## [1.1.0] - 2020-04-22
 ### Changed
