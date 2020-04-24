@@ -48,6 +48,7 @@ module.exports = function (RED) {
     this.activeMaxResults = config.activeMaxResults
     this.maxResults = config.maxResults
     this.output = config.output
+    this.passThrough = config.passThrough
 
     var node = this
 
@@ -78,9 +79,9 @@ module.exports = function (RED) {
     }
 
     function getBestPrediction (predictions) {
-      var className = ''
-      var probability = 0
-      for (var i = 0; i < predictions.length; i++) {
+      let className = ''
+      let probability = 0
+      for (let i = 0; i < predictions.length; i++) {
         if (predictions[i].probability > probability) {
           className = predictions[i].className
           probability = predictions[i].probability
@@ -95,30 +96,42 @@ module.exports = function (RED) {
       return 0
     }
 
+    function changeKeyResults (results) {
+      const out = []
+      for (let i = 0; i < results.length; i++) {
+        out.push({
+          class: results[i].className,
+          score: results[i].probability
+        })
+      }
+      return out
+    }
+
     // Converts the image, makes inference and treats predictions
     async function inference (msg) {
       setNodeStatus(node, 'infering')
       const image = new canvas.Image()
       image.src = msg.image
       msg.classes = node.model.getClassLabels()
-      var predictions = await node.model.predict(image)
+      const predictions = await node.model.predict(image)
 
       predictions.sort(byProbabilty)
-      var percentage = predictions[0].probability.toFixed(2) * 100
-      var bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
+      const percentage = predictions[0].probability.toFixed(2) * 100
+      const bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
 
       if (node.output === 'best') {
-        msg.payload = [{ className: predictions[0].className, probability: predictions[0].probability }]
+        msg.payload = [{ className: predictions[0].className, score: predictions[0].probability }]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
-        var filteredPredictions = predictions
+        let filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.probability > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
+        filteredPredictions = changeKeyResults(filteredPredictions)
 
         if (filteredPredictions.length > 0) {
           setNodeStatus(node, bestPredictionText)
         } else {
-          var statusText = 'probability < ' + node.threshold + '%'
+          const statusText = 'score < ' + node.threshold + '%'
           setNodeStatus(node, statusText)
           msg.payload = []
           node.send(msg)
@@ -134,7 +147,7 @@ module.exports = function (RED) {
     node.on('input', function (msg) {
       try {
         if (node.ready && node.modelUrl !== '') {
-          msg.image = msg.payload
+          if (node.passThrough) { msg.image = msg.payload }
           inference(msg)
         } else {
           node.error('model is not ready')

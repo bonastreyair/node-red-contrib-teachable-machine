@@ -26,7 +26,7 @@ You have two options to install the node.
 ### Step 1
 Go to [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) and follow the steps to train your custom classification model. Once trained click on the `Export Model` button.
 
-![teachable_steps](https://github.com/googlecreativelab/teachablemachine-community/blob/master/teachablemachine.gif)
+![teachable_machine_export](https://user-images.githubusercontent.com/37800834/80190158-18b1e100-8614-11ea-9ccf-6668e49e7e2d.png)
 
 ### Step 2 
 Select `Tensorflow.js` format and upload your trained model (for free). Once it is uploaded, copy the generated URL.

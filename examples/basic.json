@@ -1,9 +1,9 @@
 [
     {
-        "id": "c6878bbc.90306",
+        "id": "9b0a1240.fe6c2",
         "type": "http request",
-        "z": "db7a43a9.53e3c",
-        "name": "",
+        "z": "c57dcb00.eb9ed8",
+        "name": "random image",
         "method": "GET",
         "ret": "bin",
         "paytoqs": false,
@@ -12,20 +12,20 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 290,
-        "y": 80,
+        "x": 260,
+        "y": 300,
         "wires": [
             [
-                "8ee27c26.7cb15",
-                "bfe5b0cf.8781e8"
+                "91ebc5b6.8ccdd8",
+                "aa6e3ce7.cfdcf"
             ]
         ]
     },
     {
-        "id": "fa420bdc.91bde8",
+        "id": "9cbe3704.6bb118",
         "type": "inject",
-        "z": "db7a43a9.53e3c",
-        "name": "",
+        "z": "c57dcb00.eb9ed8",
+        "name": "new",
         "topic": "",
         "payload": "",
         "payloadType": "date",
@@ -33,61 +33,64 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 140,
-        "y": 80,
+        "x": 110,
+        "y": 300,
         "wires": [
             [
-                "c6878bbc.90306"
+                "9b0a1240.fe6c2"
             ]
         ]
     },
     {
-        "id": "89088a53.cc06",
+        "id": "456d4286.6d5b2c",
         "type": "debug",
-        "z": "db7a43a9.53e3c",
+        "z": "c57dcb00.eb9ed8",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "x": 690,
-        "y": 80,
+        "complete": "true",
+        "targetType": "full",
+        "x": 630,
+        "y": 300,
         "wires": []
     },
     {
-        "id": "8ee27c26.7cb15",
+        "id": "aa6e3ce7.cfdcf",
         "type": "image",
-        "z": "db7a43a9.53e3c",
+        "z": "c57dcb00.eb9ed8",
         "name": "",
         "width": 160,
         "data": "payload",
         "dataType": "msg",
         "thumbnail": false,
         "active": true,
-        "x": 480,
-        "y": 140,
+        "pass": false,
+        "outputs": 0,
+        "x": 460,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "bfe5b0cf.8781e8",
+        "id": "91ebc5b6.8ccdd8",
         "type": "teachable machine",
-        "z": "db7a43a9.53e3c",
+        "z": "c57dcb00.eb9ed8",
         "name": "",
         "mode": "online",
         "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
-        "output": "all",
         "localModel": "teachable_model",
-        "activeThreshold": true,
-        "threshold": "80",
-        "activeMaxResults": true,
-        "maxResults": "3",
-        "x": 490,
-        "y": 80,
+        "output": "best",
+        "activeThreshold": false,
+        "threshold": 80,
+        "activeMaxResults": false,
+        "maxResults": 3,
+        "passThrough": true,
+        "x": 470,
+        "y": 300,
         "wires": [
             [
-                "89088a53.cc06"
+                "456d4286.6d5b2c"
             ]
         ]
     }

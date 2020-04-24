@@ -10,14 +10,14 @@
 
     <div class="node-row-msg-online">
         <div class="form-row node-row-online">
-            <label for="node-input-modelUrl" style="margin-left: 20px; width: 80px;"><i class="fa fa-globe" style="margin-right: 6px;"></i>URL</label>
+            <label for="node-input-modelUrl"><i class="fa fa-globe" style="margin-right: 6px;"></i>Url</label>
             <input type="text" id="node-input-modelUrl" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
         </div>
     </div>  
 
     <div class="node-row-msg-local">
         <div class="form-row node-row-local">
-            <label for="node-input-localModel" style="margin-left: 20px; width: 80px;"><i class="fa fa-floppy-o" style="margin-right: 6px;"></i>Model</label>
+            <label for="node-input-localModel"><i class="fa fa-floppy-o" style="margin-right: 6px;"></i>Model</label>
                 <select style="width: 160px;" type="text" id="node-input-localModel">
                     <option value="teachable_model" selected>Not supported yet</option>
                 </select>
@@ -33,14 +33,15 @@
     </div>
 
     <div class="node-row-msg-filters">
-        <div class="form-row node-row-filters">
+        <div class="form-row">
             <label for="node-input-filters"><i class="fa fa-filter" style="margin-right: 6px;"></i>Filters</label>
                 <label for="node-input-threshold" style="width:70%;">
                     <input type="checkbox" id="node-input-activeThreshold" style="display:inline-block; width:22px; vertical-align:baseline;"> 
                     <label style="width:65px;">threshold</label>
                     <input type="text" id="node-input-threshold" style="width: 40px;" placeholder="80"> % 
                 </label>
-        <div class="form-row node-row-filters">
+        </div>
+        <div class="form-row">
             <label for="node-input-filters"></label>
                 <label for="node-input-threshold" style="width:70%;">
                     <input type="checkbox" id="node-input-activeMaxResults" style="display:inline-block; width:22px; vertical-align:baseline;">
@@ -48,6 +49,12 @@
                     <input type="text" id="node-input-maxResults" style="width: 40px;" placeholder="3"> predictions
                 </label>
         </div>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-passThrough"><i class="fa fa-picture-o" style="margin-right: 6px;"></i>Image</label>
+        <input type="checkbox" id="node-input-passThrough" style="display:inline-block; width:22px; vertical-align:baseline;">
+        save original image in <code>msg.image</code>.
     </div>
 
     <div class="form-row">
@@ -110,12 +117,13 @@
         name: { value: '' },
         mode: { value: 'online' },
         modelUrl: { value: '', required: true },
-        output: { value: 'best', required: true },
         localModel: { value: 'teachable_model' },
+        output: { value: 'best', required: true },
         activeThreshold: { value: false },
         threshold: { value: 80, validate: function(v) { return RED.validators.number(v) && (v > 0) && (v < 100)}},
         activeMaxResults: { value: false },
-        maxResults: { value: 3, validate: function(v) { return RED.validators.number(v) && (v > 0) && (v < 5)}}
+        maxResults: { value: 3, validate: function(v) { return RED.validators.number(v) && (v > 0) && (v < 5)}},
+        passThrough: { value: false }
     },
     inputs: 1,
     outputs: 1,
