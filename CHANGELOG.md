@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
  - New configuration checkbox to pass through the input image in `msg.image` 
 
 ### Changed
- - `probability` key ha changed to `score` in the results
+ - `probability` key changed to `score` in the results
  - Updated example with new configuration parameter
 
 ### Fixed
