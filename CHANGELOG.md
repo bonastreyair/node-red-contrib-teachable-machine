@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [Unreleased]
+### Fixed
+ - `className` key (when `Best prediction` option) fixed to `class` in the results
+
 ## [1.1.1] - 2020-04-24
 ### Added
  - New configuration checkbox to pass through the input image in `msg.image` 

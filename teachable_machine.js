@@ -120,7 +120,7 @@ module.exports = function (RED) {
       const bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
 
       if (node.output === 'best') {
-        msg.payload = [{ className: predictions[0].className, score: predictions[0].probability }]
+        msg.payload = [{ class: predictions[0].className, score: predictions[0].probability }]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
         let filteredPredictions = predictions
