@@ -4,6 +4,7 @@
 [![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/archive/master.zip)
 <br>[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![GitHub license](https://img.shields.io/github/license/dceejay/tfjs-nodes)](https://github.com/dceejay/tfjs-nodes/blob/master/LICENSE)
+[![donate PayPal](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.me/bonastreyair)
 
 A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tensorflow.org/js) that enables to run custom image classification trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool.
 
@@ -13,13 +14,13 @@ A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tens
 
 ## Install
 You have two options to install the node.
- * Use `Manage palette` option in `Node-RED` Menu (recommended)
-![manage_pallete](https://user-images.githubusercontent.com/37800834/79070482-740bd700-7cd6-11ea-93d3-646c0bf418d1.png)
+- Use `Manage palette` option in `Node-RED` Menu (recommended)
+  ![manage_pallete](https://user-images.githubusercontent.com/37800834/80922178-88923b00-8d7b-11ea-9fcf-ea1839bfee09.png)
 
- * Run the following command in your Node-RED user directory - typically `~/.node-red`
- ```
- npm install node-contrib-teachable-machine
- ```
+- Run the following command in your `Node-RED` user directory - typically `~/.node-red`
+  ```
+  npm install node-contrib-teachable-machine
+  ```
 **Note:** If you run the command you will need to restart `Node-RED` after installation. If installation goes wrong please open a [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
 
 ## Node usage
@@ -36,16 +37,15 @@ Select `Tensorflow.js` format and upload your trained model (for free). Once it 
 ### Step 3
 Paste the saved URL into the node configuration. That URL hosts all the information to load your trained model. Make sure you copy all the given URL including the `https://...`.
 
-![use_url](https://user-images.githubusercontent.com/37800834/80016824-f749db80-84d3-11ea-8817-9f7e42732f8a.png)
+![config](https://user-images.githubusercontent.com/37800834/80922980-e8d7ab80-8d80-11ea-8c0c-89d1008455da.png)
 
 ### Step 4 
 In `Node-RED` send a buffered image to the node. Check the example in the `Import` section.
 
 ## Requirements
-* `Node-RED v1.0.0+`
-* Supported OS: MacOSX Catalina, Windows 10, Ubuntu 18.04
+- `Node-RED v1.0.0+`
 
-**Note:** Using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) does not work since it is based on Alpine as it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
+*Note:* MacOSX Catalina, Windows 10 and Ubuntu 18.04 are supported. Using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) does is not supportd since it is based on [Alpine](https://hub.docker.com/_/alpine) as it has an incompatibility found in this [issue](https://github.com/tensorflow/tfjs/issues/1425).
 
 ## Mentions
  * [@dceejay](https://github.com/dceejay): who inspired me thanks to node [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/)

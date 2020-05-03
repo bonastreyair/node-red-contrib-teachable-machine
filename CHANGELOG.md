@@ -1,9 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-### [Unreleased]
+## [1.1.2] - 2020-05-03
+### Added
+ - PayPal donation badge in `README` file
+
 ### Fixed
  - `className` key (when `Best prediction` option) fixed to `class` in the results
+ - Refinements on `README` file
+ - Alignment HTML icons in node configuration
 
 ## [1.1.1] - 2020-04-24
 ### Added
@@ -97,5 +102,5 @@ All notable changes to this project will be documented in this file.
  - CHANGELOG.md file
  - README.md file
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
