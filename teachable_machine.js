@@ -9,7 +9,7 @@ module.exports = function (RED) {
   const canvas = require('canvas')
   global.fetch = require('node-fetch')
   // Teachable Machine needs global scope of HTMLVideoElement class to do a check
-  global.HTMLVideoElement = class HTMLVideoElement {}
+  global.HTMLVideoElement = class HTMLVideoElement { }
 
   function setNodeStatus (node, status) {
     switch (status) {
@@ -147,8 +147,9 @@ module.exports = function (RED) {
     node.on('input', function (msg) {
       try {
         if (node.ready && node.modelUrl !== '') {
-          if (node.passThrough) { msg.image = msg.payload }
+          msg.image = msg.payload
           inference(msg)
+          if (!node.passThrough) { delete msg.image }
         } else {
           node.error('model is not ready')
         }

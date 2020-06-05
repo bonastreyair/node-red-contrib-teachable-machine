@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2020-06-05
+### Fixed
+ - Prediction does not work when save_image's box is checked - [#14](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/14)
+
+### Changed
+ - Dependancy is now `@tensorflow/tfjs v1.3.1` instead of `@tensorflow/tfjs-node v1.4.0`, to match teachable machine correct dependencies
+
 ## [1.1.2] - 2020-05-03
 ### Added
  - PayPal donation badge in `README` file
