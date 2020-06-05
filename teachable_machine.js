@@ -2,14 +2,13 @@ module.exports = function (RED) {
   /* Initial Setup */
   // Simulate real HTML
   const { JSDOM } = require('jsdom')
-  var dom = new JSDOM('<!doctype html><html></html>')
+  var dom = new JSDOM('')
   global.document = dom.window.document
-  // Require basic libraries
-  const tmImage = require('@teachablemachine/image')
+  global.HTMLVideoElement = dom.window.HTMLVideoElement
   const canvas = require('canvas')
+  // Require basic libraries
   global.fetch = require('node-fetch')
-  // Teachable Machine needs global scope of HTMLVideoElement class to do a check
-  global.HTMLVideoElement = class HTMLVideoElement { }
+  const tmImage = require('@teachablemachine/image')
 
   function setNodeStatus (node, status) {
     switch (status) {
@@ -79,8 +78,8 @@ module.exports = function (RED) {
     }
 
     function getBestPrediction (predictions) {
-      let className = ''
-      let probability = 0
+      var className = ''
+      var probability = 0
       for (let i = 0; i < predictions.length; i++) {
         if (predictions[i].probability > probability) {
           className = predictions[i].className
@@ -97,7 +96,7 @@ module.exports = function (RED) {
     }
 
     function changeKeyResults (results) {
-      const out = []
+      var out = []
       for (let i = 0; i < results.length; i++) {
         out.push({
           class: results[i].className,
@@ -110,20 +109,20 @@ module.exports = function (RED) {
     // Converts the image, makes inference and treats predictions
     async function inference (msg) {
       setNodeStatus(node, 'infering')
-      const image = new canvas.Image()
+      var image = new canvas.Image()
       image.src = msg.image
-      msg.classes = node.model.getClassLabels()
-      const predictions = await node.model.predict(image)
+
+      var predictions = await node.model.predict(image)
 
       predictions.sort(byProbabilty)
-      const percentage = predictions[0].probability.toFixed(2) * 100
-      const bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
+      var percentage = (predictions[0].probability * 100).toFixed(0)
+      var bestPredictionText = percentage.toString() + '% - ' + predictions[0].className
 
       if (node.output === 'best') {
         msg.payload = [{ class: predictions[0].className, score: predictions[0].probability }]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
-        let filteredPredictions = predictions
+        var filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.probability > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
         filteredPredictions = changeKeyResults(filteredPredictions)
@@ -131,7 +130,7 @@ module.exports = function (RED) {
         if (filteredPredictions.length > 0) {
           setNodeStatus(node, bestPredictionText)
         } else {
-          const statusText = 'score < ' + node.threshold + '%'
+          var statusText = 'score < ' + node.threshold + '%'
           setNodeStatus(node, statusText)
           msg.payload = []
           node.send(msg)
@@ -139,6 +138,7 @@ module.exports = function (RED) {
         }
         msg.payload = filteredPredictions
       }
+      msg.classes = node.model.getClassLabels()
       node.send(msg)
     }
 

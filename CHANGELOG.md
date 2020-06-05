@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - 2020-06-05
+### Fixed
+ - Better usage of `HTMLVideoElement` class imported from `dom.window`
+ - Better accuracy representation in the node status without decimals
+
+### Changed
+ - Some variable types from `const` to `var`
+
 ## [1.1.3] - 2020-06-05
 ### Fixed
  - Prediction does not work when save_image's box is checked - [#14](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/14)
