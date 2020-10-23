@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2020-10-23
+
+### Changed
+
+- Upgraded `@tensorflow/tfjs` to 2.6.0
+
+### Removed
+
+- Removed dependancies of `@teachablemachine/image`, `jsdom` and `canvas`
+
 ## [1.1.5] - 2020-09-08
 
 ### Fixed
