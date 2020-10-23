@@ -6,12 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Compatibility with official Node-RED Dockerized image based on [Alpine](https://hub.docker.com/_/alpine) image
+- Compatibility with Raspberry Pi
 - [`pureimage`](https://www.npmjs.com/package/pureimage) package dependency to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
 - [`node-fetch`](https://www.npmjs.com/package/node-fetch) package dependency to manage http request to obtain the model info
 
 ### Removed
 
-- `@teachablemachine/image`, `jsdom` and `canvas` npm packages to make the node compatible with Raspberry Pi and Dockerized Node-RED
+- `@teachablemachine/image`, `jsdom` and `canvas` npm packages
 
 ## [1.1.5] - 2020-09-08
 
