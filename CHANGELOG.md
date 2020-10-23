@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
-- Removed dependancies of `@teachablemachine/image`, `jsdom` and `canvas`
+- Removed dependencies of `@teachablemachine/image`, `jsdom` and `canvas`
 
 ## [1.1.5] - 2020-09-08
 
