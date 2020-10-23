@@ -4,7 +4,6 @@ module.exports = function (RED) {
   const request = require('request')
   var tf = require('@tensorflow/tfjs')
   var PImage = require('pureimage')
-  const sharp = require('sharp')
 
   function setNodeStatus (node, status) {
     switch (status) {
@@ -14,8 +13,8 @@ module.exports = function (RED) {
       case 'modelLoading':
         node.status({ fill: 'yellow', shape: 'ring', text: 'loading model...' })
         break
-      case 'infering':
-        node.status({ fill: 'blue', shape: 'ring', text: 'infering...' })
+      case 'inferencing':
+        node.status({ fill: 'blue', shape: 'ring', text: 'inferencing...' })
         break
       case 'modelError':
         node.status({ fill: 'red', shape: 'dot', text: 'model error' })
@@ -84,11 +83,10 @@ module.exports = function (RED) {
      * probabilities of the top K classes.
      */
     async function predict (imgElement) {
-      console.log('Predicting...')
-
       const logits = tf.tidy(() => {
         // tf.browser.fromPixels() returns a Tensor from an image element.
-        const img = tf.browser.fromPixels(imgElement).toFloat()
+        var img = tf.browser.fromPixels(imgElement).toFloat()
+        img = tf.image.resizeNearestNeighbor(img, [node.model.inputs[0].shape[1], node.model.inputs[0].shape[2]])
 
         const offset = tf.scalar(127.5)
         // Normalize the image from [0, 255] to [-1, 1].
@@ -111,6 +109,7 @@ module.exports = function (RED) {
      */
     async function getTopKClasses (logits, topK) {
       const values = await logits.data()
+      topK = Math.min(topK, values.length)
 
       const valuesAndIndices = []
       for (let i = 0; i < values.length; i++) {
@@ -152,21 +151,12 @@ module.exports = function (RED) {
     }
     // Converts the image, makes inference and treats predictions
     async function inference (msg) {
-      setNodeStatus(node, 'infering')
-      var imageBuffer
-      await sharp(msg.image)
-        .resize({
-          width: node.model.inputs[0].shape[1],
-          height: node.model.inputs[0].shape[2]
-        })
-        .toBuffer({ resolveWithObject: true })
-        .then(({ data, info }) => {
-          imageBuffer = data
-        })
-        .catch(err => { console.log(err) })
+      setNodeStatus(node, 'inferencing')
 
-      var image = await PImage.decodeJPEGFromStream(bufferToStream(imageBuffer))
+      var image = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
+
       var logits = await predict(image)
+
       var predictions = await getTopKClasses(logits, node.maxResults)
 
       var bestProbability = predictions[0].probability.toFixed(2) * 100
