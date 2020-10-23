@@ -19,7 +19,7 @@ You have two options to install the node.
 
 - Run the following command in your `Node-RED` user directory - typically `~/.node-red`
   ```
-  npm install node-contrib-teachable-machine
+  npm install node-red-contrib-teachable-machine
   ```
 **Note:** If you run the command you will need to restart `Node-RED` after installation. If installation goes wrong please open a [new issue](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues).
 
