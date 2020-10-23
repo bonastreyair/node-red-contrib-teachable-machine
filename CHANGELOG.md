@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.0] - 2020-10-23
 
+### Added
+
+- New dependancy to [`pureimage`](https://www.npmjs.com/package/pureimage) - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+
 ### Removed
 
 - Removed dependencies of `@teachablemachine/image`, `jsdom` and `canvas`
