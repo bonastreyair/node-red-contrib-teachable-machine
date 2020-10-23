@@ -56,7 +56,7 @@ In `Node-RED` send a buffered image to the node. Check the example in the `Impor
 
 - `Node-RED v1.0.0+`
 
-*Note:* MacOSX Catalina, Windows 10 and Ubuntu 18.04 are supported as well as using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Alpine](https://hub.docker.com/_/alpine) image. Works with Raspberry Pi too since release [`v1.2.0+`](https://github.com/bonastreyair/node-red-contrib-teachable-machine/releases/tag/)
+*Note:* MacOSX Catalina, Windows 10 and Ubuntu 18.04 are supported as well as using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Alpine](https://hub.docker.com/_/alpine) image. Works with Raspberry Pi too since release [`v1.2.0+`](https://github.com/bonastreyair/node-red-contrib-teachable-machine/releases/tag/).
 
 ## Mentions
 
