@@ -6,11 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- New dependancy to [`pureimage`](https://www.npmjs.com/package/pureimage) - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+- New [`pureimage`](https://www.npmjs.com/package/pureimage) to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
 
 ### Removed
 
-- Removed dependencies of `@teachablemachine/image`, `jsdom` and `canvas`
+- `@teachablemachine/image`, `jsdom` and `canvas` npm packages to make the node compatible with Raspberry Pi and Dockerized Node-RED
 
 ## [1.1.5] - 2020-09-08
 
