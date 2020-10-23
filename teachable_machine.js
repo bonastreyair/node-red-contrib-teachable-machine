@@ -79,7 +79,7 @@ module.exports = function (RED) {
     }
 
     /**
-     * Given an image element, makes a prediction through mobilenet returning the
+     * Given an image element, makes a prediction through model returning the
      * probabilities of the top K classes.
      */
     async function predict (imgElement) {
@@ -149,13 +149,17 @@ module.exports = function (RED) {
 
       return readableInstanceStream
     }
-    // Converts the image, makes inference and treats predictions
+
+    /**
+     * Converts the image, makes inference and treats predictions
+     * @param msg message of the node-red
+     */
     async function inference (msg) {
       setNodeStatus(node, 'inferencing')
 
-      var image = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
+      var imageBitmap = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
 
-      var logits = await predict(image)
+      var logits = await predict(imageBitmap)
 
       var predictions = await getTopKClasses(logits, node.maxResults)
 
