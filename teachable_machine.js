@@ -1,7 +1,7 @@
 module.exports = function (RED) {
 /* Initial Setup */
   const { Readable } = require('stream')
-  const request = require('request')
+  const fetch = require('node-fetch')
   var tf = require('@tensorflow/tfjs')
   var PImage = require('pureimage')
 
@@ -58,12 +58,9 @@ module.exports = function (RED) {
             return
           } else {
             const modelURL = node.modelUrl + 'model.json'
-            request(node.modelUrl + 'metadata.json', function (error, response, body) {
-              if (error != null) {
-                console.error('error:', error) // Print the error if one occurred
-              }
-              node.classes = JSON.parse(body).labels
-            })
+            const response = await fetch(node.modelUrl + 'metadata.json')
+            const body = await response.text()
+            node.classes = JSON.parse(body).labels
             node.model = await tf.loadLayersModel(modelURL)
           }
         } else {

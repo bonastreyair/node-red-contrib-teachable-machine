@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- New [`pureimage`](https://www.npmjs.com/package/pureimage) to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+- New [`pureimage`](https://www.npmjs.com/package/pureimage) package dependncy to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+- New [`node-fetch`](https://www.npmjs.com/package/node-fetch) package dependency to manage http request to obtain the model info
 
 ### Removed
 
