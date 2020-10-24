@@ -1,5 +1,5 @@
 module.exports = function (RED) {
-/* Initial Setup */
+  /* Initial Setup */
   const { Readable } = require('stream')
   const fetch = require('node-fetch')
   var tf = require('@tensorflow/tfjs')
@@ -125,8 +125,8 @@ module.exports = function (RED) {
       const topClassesAndProbs = []
       for (let i = 0; i < topkIndices.length; i++) {
         topClassesAndProbs.push({
-          className: node.classes[topkIndices[i]],
-          probability: topkValues[i]
+          class: node.classes[topkIndices[i]],
+          score: topkValues[i]
         })
       }
       return topClassesAndProbs
@@ -158,18 +158,18 @@ module.exports = function (RED) {
 
       var logits = await predict(imageBitmap)
 
-      var predictions = await getTopKClasses(logits, node.maxResults)
+      var predictions = await getTopKClasses(logits, node.classes.length)
 
-      var bestProbability = predictions[0].probability.toFixed(2) * 100
-      var bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].className
+      var bestProbability = predictions[0].score.toFixed(2) * 100
+      var bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
 
       if (node.output === 'best') {
-        msg.payload = [{ class: predictions[0].className, score: predictions[0].probability }]
+        msg.payload = [predictions[0]]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
         var filteredPredictions = predictions
-        filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.probability > node.threshold / 100) : filteredPredictions
-        filteredPredictions = node.activeMaxResults ? filteredPredictions : filteredPredictions.slice(0, 1)
+        filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
+        filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
           setNodeStatus(node, bestPredictionText)
