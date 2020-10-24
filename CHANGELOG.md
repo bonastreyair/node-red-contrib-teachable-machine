@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2020-10-24
+
+### Changed
+
+- Upgraded to `@tensorflow/tfjs-node v1.4.0` to help Raspberry Pi installation - [#18](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/18)
+
 ## [1.2.1] - 2020-10-24
 
 ### Added
