@@ -2,18 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2020-10-24
+
+### Added
+
+- `package-lock.json` to ensure always exact versions during installation
+
+### Fixed
+
+- Output API was changed by mistake, now msg.payload still outputs `class` and `score` keys for each classification as in `v1.1.0+` releases
+- When selecting all predictions without filter only one result was showing up
+
 ## [1.2.0] - 2020-10-23
 
 ### Added
 
 - Compatibility with official Node-RED Dockerized image based on [Alpine](https://hub.docker.com/_/alpine) image
 - Compatibility with Raspberry Pi
-- [`pureimage`](https://www.npmjs.com/package/pureimage) package dependency to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
-- [`node-fetch`](https://www.npmjs.com/package/node-fetch) package dependency to manage http request to obtain the model info
+- [`pureimage`](https://www.npmjs.com/package/pureimage) npm package dependency to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+- [`node-fetch`](https://www.npmjs.com/package/node-fetch) npm package dependency to manage http request to obtain the model info
 
 ### Removed
 
-- `@teachablemachine/image`, `jsdom` and `canvas` npm packages
+- `@teachablemachine/image` npm package dependency
+- `jsdom` npm package dependency
+- `canvas` npm package dependency
 
 ## [1.1.5] - 2020-09-08
 

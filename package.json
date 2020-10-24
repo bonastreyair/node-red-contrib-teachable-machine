@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-teachable-machine",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Simplifies integration with Teachable Machine models from Google",
   "dependencies": {
     "node-fetch": "2.6.1",
@@ -16,7 +16,7 @@
     "google"
   ],
   "license": "Apache-2.0",
-  "node-red" : {
+  "node-red": {
     "nodes": {
       "teachable machine": "teachable_machine.js"
     }
