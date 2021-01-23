@@ -2,8 +2,8 @@ module.exports = function (RED) {
   /* Initial Setup */
   const { Readable } = require('stream')
   const fetch = require('node-fetch')
-  var tf = require('@tensorflow/tfjs')
-  var PImage = require('pureimage')
+  const tf = require('@tensorflow/tfjs')
+  const PImage = require('pureimage')
 
   function setNodeStatus (node, status) {
     switch (status) {
@@ -45,7 +45,7 @@ module.exports = function (RED) {
     this.passThrough = config.passThrough
     this.classes = []
 
-    var node = this
+    const node = this
 
     // Loads the Model from an Teachable Machine URL
     async function loadModel () {
@@ -82,7 +82,7 @@ module.exports = function (RED) {
     async function predict (imgElement) {
       const logits = tf.tidy(() => {
         // tf.browser.fromPixels() returns a Tensor from an image element.
-        var img = tf.browser.fromPixels(imgElement).toFloat()
+        let img = tf.browser.fromPixels(imgElement).toFloat()
         img = tf.image.resizeNearestNeighbor(img, [node.model.inputs[0].shape[1], node.model.inputs[0].shape[2]])
 
         const offset = tf.scalar(127.5)
@@ -154,27 +154,27 @@ module.exports = function (RED) {
     async function inference (msg) {
       setNodeStatus(node, 'inferencing')
 
-      var imageBitmap = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
+      const imageBitmap = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
 
-      var logits = await predict(imageBitmap)
+      const logits = await predict(imageBitmap)
 
-      var predictions = await getTopKClasses(logits, node.classes.length)
+      const predictions = await getTopKClasses(logits, node.classes.length)
 
-      var bestProbability = predictions[0].score.toFixed(2) * 100
-      var bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
+      const bestProbability = predictions[0].score.toFixed(2) * 100
+      const bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
 
       if (node.output === 'best') {
         msg.payload = [predictions[0]]
         setNodeStatus(node, bestPredictionText)
       } else if (node.output === 'all') {
-        var filteredPredictions = predictions
+        let filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
           setNodeStatus(node, bestPredictionText)
         } else {
-          var statusText = 'score < ' + node.threshold + '%'
+          const statusText = 'score < ' + node.threshold + '%'
           setNodeStatus(node, statusText)
           msg.payload = []
           node.send(msg)
