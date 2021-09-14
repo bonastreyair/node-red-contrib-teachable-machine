@@ -190,6 +190,9 @@ module.exports = function (RED) {
 
     node.on('input', function (msg) {
       try {
+        if (node.ready && msg.reload !=='') {
+           loadModel()
+        }
         if (node.ready && node.modelUrl !== '') {
           msg.image = msg.payload
           inference(msg)
