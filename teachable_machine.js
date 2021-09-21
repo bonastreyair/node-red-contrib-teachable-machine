@@ -190,16 +190,19 @@ module.exports = function (RED) {
 
     node.on('input', function (msg) {
       try {
-        if (node.ready && msg.reload !=='') {
-           loadModel()
+        if (node.modelUrl !== '') {
+          if (msg.reload) { loadModel(); return }
+          if (node.ready) {
+             if (msg.payload) {
+                msg.image = msg.payload
+                inference(msg)
+                if (!node.passThrough) { delete msg.image }
+              }
+           } else {
+             node.error('model is not ready')
+           }
         }
-        if (node.ready && node.modelUrl !== '') {
-          msg.image = msg.payload
-          inference(msg)
-          if (!node.passThrough) { delete msg.image }
-        } else {
-          node.error('model is not ready')
-        }
+
       } catch (error) {
         node.error(error)
         console.log(error)
