@@ -1,7 +1,7 @@
 module.exports = function (RED) {
   /* Initial Setup */
   const { Readable } = require('stream')
-  const fetch = require('node-fetch')
+  const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
   const tf = require('@tensorflow/tfjs')
   const PImage = require('pureimage')
 
