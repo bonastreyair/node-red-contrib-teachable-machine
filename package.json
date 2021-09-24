@@ -4,7 +4,7 @@
   "description": "Simplifies integration with Teachable Machine models from Google",
   "dependencies": {
     "node-fetch": "3.0.0",
-    "@tensorflow/tfjs": "1.4.0",
+    "@tensorflow/tfjs": "3.9.0",
     "pureimage": "0.3.5"
   },
   "keywords": [
