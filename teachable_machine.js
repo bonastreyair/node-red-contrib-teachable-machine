@@ -1,7 +1,7 @@
 module.exports = function (RED) {
   /* Initial Setup */
   const { Readable } = require('stream')
-  const fetch = require('node-fetch')
+  const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
   const tf = require('@tensorflow/tfjs')
   const PImage = require('pureimage')
 
@@ -190,12 +190,17 @@ module.exports = function (RED) {
 
     node.on('input', function (msg) {
       try {
-        if (node.ready && node.modelUrl !== '') {
-          msg.image = msg.payload
-          inference(msg)
-          if (!node.passThrough) { delete msg.image }
-        } else {
-          node.error('model is not ready')
+        if (node.modelUrl !== '') {
+          if (msg.reload) { loadModel(); return }
+          if (node.ready) {
+            if (msg.payload) {
+              msg.image = msg.payload
+              inference(msg)
+              if (!node.passThrough) { delete msg.image }
+            }
+          } else {
+            node.error('model is not ready')
+          }
         }
       } catch (error) {
         node.error(error)

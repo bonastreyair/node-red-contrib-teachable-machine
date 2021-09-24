@@ -1,6 +1,7 @@
+---
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v3.4.0
+  rev: v4.0.1
   hooks:
   - id: trailing-whitespace
   - id: check-added-large-files
@@ -8,8 +9,17 @@ repos:
   - id: end-of-file-fixer
   - id: check-json
   - id: pretty-format-json
-    args: ['--autofix', '--no-sort-keys']
+    args: [--autofix, --no-sort-keys]
 - repo: https://github.com/standard/standard
   rev: v16.0.3
   hooks:
   - id: standard
+- repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  rev: 0.1.0
+  hooks:
+  - id: yamlfmt
+    args: [--mapping, '2', --sequence, '2', --offset, '0']
+- repo: https://github.com/executablebooks/mdformat
+  rev: 0.7.10
+  hooks:
+  - id: mdformat

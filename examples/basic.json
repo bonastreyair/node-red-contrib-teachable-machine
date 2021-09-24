@@ -2,7 +2,7 @@
   {
     "id": "9b0a1240.fe6c2",
     "type": "http request",
-    "z": "c57dcb00.eb9ed8",
+    "z": "17514116325f40c5",
     "name": "random image",
     "method": "GET",
     "ret": "bin",
@@ -12,29 +12,28 @@
     "persist": false,
     "proxy": "",
     "authType": "",
-    "x": 260,
-    "y": 300,
+    "x": 280,
+    "y": 120,
     "wires": [
       [
-        "91ebc5b6.8ccdd8",
-        "aa6e3ce7.cfdcf"
+        "91ebc5b6.8ccdd8"
       ]
     ]
   },
   {
     "id": "9cbe3704.6bb118",
     "type": "inject",
-    "z": "c57dcb00.eb9ed8",
+    "z": "17514116325f40c5",
     "name": "new",
-    "topic": "",
-    "payload": "",
-    "payloadType": "date",
     "repeat": "",
     "crontab": "",
     "once": false,
     "onceDelay": 0.1,
-    "x": 110,
-    "y": 300,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 130,
+    "y": 120,
     "wires": [
       [
         "9b0a1240.fe6c2"
@@ -44,7 +43,7 @@
   {
     "id": "456d4286.6d5b2c",
     "type": "debug",
-    "z": "c57dcb00.eb9ed8",
+    "z": "17514116325f40c5",
     "name": "",
     "active": true,
     "tosidebar": true,
@@ -52,30 +51,14 @@
     "tostatus": false,
     "complete": "true",
     "targetType": "full",
-    "x": 630,
-    "y": 300,
-    "wires": []
-  },
-  {
-    "id": "aa6e3ce7.cfdcf",
-    "type": "image",
-    "z": "c57dcb00.eb9ed8",
-    "name": "",
-    "width": 160,
-    "data": "payload",
-    "dataType": "msg",
-    "thumbnail": false,
-    "active": true,
-    "pass": false,
-    "outputs": 0,
-    "x": 460,
-    "y": 360,
+    "x": 650,
+    "y": 120,
     "wires": []
   },
   {
     "id": "91ebc5b6.8ccdd8",
     "type": "teachable machine",
-    "z": "c57dcb00.eb9ed8",
+    "z": "17514116325f40c5",
     "name": "",
     "mode": "online",
     "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
@@ -86,11 +69,36 @@
     "activeMaxResults": false,
     "maxResults": 3,
     "passThrough": true,
-    "x": 470,
-    "y": 300,
+    "x": 490,
+    "y": 120,
     "wires": [
       [
         "456d4286.6d5b2c"
+      ]
+    ]
+  },
+  {
+    "id": "994234755381c0c0",
+    "type": "inject",
+    "z": "17514116325f40c5",
+    "name": "reload",
+    "props": [
+      {
+        "p": "reload",
+        "v": "true",
+        "vt": "bool"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 310,
+    "y": 80,
+    "wires": [
+      [
+        "91ebc5b6.8ccdd8"
       ]
     ]
   }

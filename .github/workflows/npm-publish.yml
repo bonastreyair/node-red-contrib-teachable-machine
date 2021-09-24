@@ -1,3 +1,4 @@
+---
 name: Publish npm package
 
 on:
@@ -8,14 +9,14 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2.2.0
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - name: Publish npm package    
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup node
+      uses: actions/setup-node@v2.2.0
+      with:
+        node-version: 12
+        registry-url: https://registry.npmjs.org/
+    - name: Publish npm package
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.npm_token}}
