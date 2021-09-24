@@ -1,0 +1,20 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+    - main
+    - dev
+  pull_request:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install pre-commit
+      run: pip install pre-commit
+    - name: Run pre-commit
+      run: pre-commit run --all-files
