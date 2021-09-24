@@ -2,22 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.3.0] - 2021-09-24
 
 ### Added
 
-- Model reload option flag during running time - [#22](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/22) - Thanks @acejacek for the suggestion and the PR
+- Model reload option flag during running time - [#22](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/22) - Thanks [@acejacek](https://github.com/acejacek) for the suggestion and the PR
+- `pre-commit` common checks with `standard`, `yamlfmt` and `mdformat` style checks
+- GitHub Actions **CI** test with badge
+- **npm** quality badge to the `README` file
+- Automatic dependency checks with **dependabot**
 
 ### Changed
 
-- Upgraded `node-fetch` npm package dependency to version `3.0.0`
-- Upgraded `pureimage` npm package dependency to version `0.3.5`
+- Upgraded `node-fetch` to version `3.0.0`
+- Upgraded `pureimage` to version `0.3.5`
+- Upgraded `package-lock.json` file format to `v7`
+- Updated the `basic` example with the new reload option flag
 
 ## [1.2.2] - 2020-10-24
 
 ### Changed
 
-- Upgraded to `@tensorflow/tfjs-node v1.4.0` to help Raspberry Pi installation - [#18](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/18)
+- Upgraded `@tensorflow/tfjs-node` to version `1.4.0` to help Raspberry Pi installation - [#18](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/18)
 
 ## [1.2.1] - 2020-10-24
 
@@ -74,7 +80,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Dependancy is now `@tensorflow/tfjs v1.3.1` instead of `@tensorflow/tfjs-node v1.4.0`, to match teachable machine correct dependencies
+- Dependancy is now `@tensorflow/tfjs 1.3.1` instead of `@tensorflow/tfjs-node 1.4.0`, to match teachable machine correct dependencies
 
 ## [1.1.2] - 2020-05-03
 
@@ -109,7 +115,7 @@ All notable changes to this project will be documented in this file.
 
 - Updated image on how to use Teachable Machine and configuration node on Step 3
 - Use standard image treatment for `README` instead of HTML
-- Upgraded to `@tensorflow/tfjs-node v1.4.0` to enable coexistantce with [tfjs-nodes](https://github.com/dceejay/tfjs-nodes) nodes - [#8](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/8)
+- Upgraded `@tensorflow/tfjs-node` to version `1.4.0` to enable coexistantce with [tfjs-nodes](https://github.com/dceejay/tfjs-nodes) nodes - [#8](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/8)
 
 ## [1.0.1] - 2020-04-15
 
@@ -132,7 +138,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Icon updated to Tensorflow 2.0 new logo
+- Icon updated to **Tensorflow 2.0** new logo
 - Updated configuration node
 - Using all `README` badges from [Shields.io](https://shields.io/)
 - Outputs is always an array of results even if `Best prediction` is selected
@@ -173,24 +179,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Downgraded `@tensorflow/tfjs-node` from version `v1.4.0` to `v1.3.1` for better compatibility
-- Output has changed from `checkbox` to a `list`, you can now select `Best predictions` or `All predictions`
-- Code cleaning
-
-### Fixed
-
-- WebGL loading error in JSDOM
-- When installing the node -> `npm WARN @teachablemachine/image@0.8.4 requires a peer of @tensorflow/tfjs@1.3.1 but none is installed`
-
-## [0.1.1] - 2020-04-11
-
-### Added
-
-- Comments in the code
-
-### Changed
-
-- Downgraded `@tensorflow/tfjs-node` from version `v1.4.0` to `v1.3.1` for better compatibility
+- Downgraded `@tensorflow/tfjs-node` from version `1.4.0` to `1.3.1` for better compatibility
 - Output has changed from `checkbox` to a `list`, you can now select `Best predictions` or `All predictions`
 - Code cleaning
 
@@ -203,13 +192,12 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Functional using Teachable Machine Online Model URL
-- Option to select Top-1 or all results
-- CHANGELOG.md file
-- README.md file
+- Functional using **Teachable Machine** Online Model URL
+- Option to select **Top-1** or all results
+- `CHANGELOG.md` file
+- `README.md` file
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [0.1.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v0.1.1...v0.1.2
@@ -225,4 +213,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.2.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.5...v1.2.0
 [1.2.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.0...v1.2.1
 [1.2.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.1...v1.2.2
-[unreleased]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.2...HEAD
+[1.3.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.2...v1.3.0
