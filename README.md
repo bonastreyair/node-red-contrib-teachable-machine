@@ -22,7 +22,7 @@ You have two options to install the node.
 
 - Run the following command in your `Node-RED` user directory - typically `~/.node-red`
 
-  ``` bash
+  ```bash
   npm install node-red-contrib-teachable-machine
   ```
 
