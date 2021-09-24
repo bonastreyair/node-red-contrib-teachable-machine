@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - Unreleased
+
+### Added
+
+- Model reload option flag during running time - [#22](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/22) - Thanks @acejacek for the suggestion and the PR
+
+### Changed
+
+- Upgraded `node-fetch` npm package dependency to version `3.0.0`
+- Upgraded `pureimage` npm package dependency to version `0.3.5`
+
 ## [1.2.2] - 2020-10-24
 
 ### Changed
@@ -25,8 +36,8 @@ All notable changes to this project will be documented in this file.
 
 - Compatibility with official Node-RED Dockerized image based on [Alpine](https://hub.docker.com/_/alpine) image
 - Compatibility with Raspberry Pi
-- [`pureimage`](https://www.npmjs.com/package/pureimage) npm package dependency to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
-- [`node-fetch`](https://www.npmjs.com/package/node-fetch) npm package dependency to manage http request to obtain the model info
+- `pureimage` npm package dependency to manage buffer images using pure javascript - [#17](https://github.com/bonastreyair/node-red-contrib-teachable-machine/issues/17)
+- `node-fetch` npm package dependency to manage http request to obtain the model info
 
 ### Removed
 
@@ -188,7 +199,7 @@ All notable changes to this project will be documented in this file.
 - WebGL loading error in JSDOM
 - When installing the node -> `npm WARN @teachablemachine/image@0.8.4 requires a peer of @tensorflow/tfjs@1.3.1 but none is installed`
 
-## [0.1.0] - 2020-04-11
+## 0.1.0 - 2020-04-11
 
 ### Added
 
@@ -199,3 +210,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+[0.1.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v0.1.1...v0.1.0
+[0.1.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v0.1.2...v0.1.1
+[0.1.3]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v0.1.3...v0.1.2
+[1.0.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.0.0...v0.1.3
+[1.0.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.0.1...v1.0.0
+[1.1.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.0...v1.0.1
+[1.1.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.1...v1.1.0
+[1.1.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.2...v1.1.1
+[1.1.3]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.3...v1.1.2
+[1.1.4]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.4...v1.1.3
+[1.1.5]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.1.5...v1.1.4
+[1.2.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.0...v1.1.5
+[1.2.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.1...v1.2.0
+[1.2.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.2...v1.2.1
+[1.3.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.3.0...v1.2.2
