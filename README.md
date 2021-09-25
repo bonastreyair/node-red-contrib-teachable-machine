@@ -1,7 +1,7 @@
 # node-red-contrib-teachable-machine
 
 [![Node-RED node](https://img.shields.io/badge/Node--RED-node-red?logo=node-red&style=flat-square)](https://nodered.org)
-[![Test CI](https://img.shields.io/github/workflow/status/bonastreyair/node-red-contrib-teachable-machine/CI?label=test&logo=github&style=flat-square)](https://github.com/duhow/download-github-release-assets/actions?workflow=CI)
+[![Test CI](https://img.shields.io/github/workflow/status/bonastreyair/node-red-contrib-teachable-machine/CI?label=test&logo=github&style=flat-square)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/actions?workflow=CI)
 [![npm latest release](https://img.shields.io/npm/v/node-red-contrib-teachable-machine?logo=npm&style=flat-square)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
 [![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine?style=flat-square)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
 [![Package Quality](https://packagequality.com/shield/node-red-contrib-teachable-machine.svg?style=flat-square)](https://packagequality.com/#?package=node-red-contrib-teachable-machine)
@@ -9,7 +9,7 @@
 [![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine?style=flat-square&color=blue)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
 [![donate PayPal](https://img.shields.io/badge/donate-PayPal-blue?style=flat-square)](https://www.paypal.me/bonastreyair)
 
-A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tensorflow.org/js) that enables to run custom image classification trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool.
+A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tensorflow.org/js) that enables to run custom image classification trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool. All notable changes to this project will be documented in the [CHANGELOG.md](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/main/CHANGELOG.md) file.
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/37800834/79343223-736d7d80-7f2e-11ea-9c85-b83fc73b0952.png" height="70">
