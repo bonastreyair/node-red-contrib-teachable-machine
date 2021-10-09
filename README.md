@@ -7,6 +7,7 @@
 [![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
 [![Package Quality](https://packagequality.com/shield/node-red-contrib-teachable-machine.svg)](https://packagequality.com/#?package=node-red-contrib-teachable-machine)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?color=yellow&logo=JavaScript&logoColor=white)](https://standardjs.com)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/bonastreyair/node-red-contrib-teachable-machine?logo=codeclimate)](https://codeclimate.com/github/bonastreyair/node-red-contrib-teachable-machine/maintainability)
 [![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine?color=blue)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
 [![donate PayPal](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.me/bonastreyair)
 
