@@ -5,18 +5,6 @@ module.exports = function (RED) {
   const tf = require('@tensorflow/tfjs')
   const PImage = require('pureimage')
 
-  const nodeStatus = {
-    MODEL: {
-      LOADING: { fill: 'yellow', shape: 'ring', text: 'loading model...' },
-      RELOADING: { fill: 'yellow', shape: 'ring', text: 'reloading model...' },
-      READY: { fill: 'green', shape: 'dot', text: 'ready' },
-      INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
-      ERROR: { fill: 'red', shape: 'dot', text: 'model error' }
-    },
-    UNKNOWN_ERROR: { fill: 'red', shape: 'dot', text: 'unknown error' },
-    CLOSE: {}
-  }
-
   function isPng (buffer) {
     if (!buffer || buffer.length < 8) {
       return false
@@ -49,8 +37,16 @@ module.exports = function (RED) {
 
     const node = this
 
-    function setNodeStatus (status, color = 'grey') {
-      node.status({ fill: color, shape: 'dot', text: status })
+    const nodeStatus = {
+      MODEL: {
+        LOADING: { fill: 'yellow', shape: 'ring', text: 'loading...' },
+        RELOADING: { fill: 'yellow', shape: 'ring', text: 'reloading...' },
+        READY: { fill: 'green', shape: 'dot', text: 'ready' },
+        INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
+        INFERENCE: (text) => { return { fill: 'green', shape: 'dot', text: text } }
+      },
+      ERROR: (text) => { node.error(text); return { fill: 'red', shape: 'dot', text: text } },
+      CLOSE: {}
     }
 
     // Loads the Model from an Teachable Machine URL
@@ -64,7 +60,7 @@ module.exports = function (RED) {
         node.ready = false
         if (node.mode === 'online') {
           if (node.modelUrl === '') {
-            setNodeStatus('set a New URL')
+            node.status(nodeStatus.ERROR('missing model url'))
             return
           } else {
             const modelURL = node.modelUrl + 'model.json'
@@ -74,14 +70,13 @@ module.exports = function (RED) {
             node.model = await tf.loadLayersModel(modelURL)
           }
         } else {
-          setNodeStatus('mode not supported', 'red')
+          node.status(nodeStatus.ERROR('mode not supported'))
           return
         }
         node.ready = true
         node.status(nodeStatus.MODEL.READY)
       } catch (error) {
-        node.status(nodeStatus.MODEL.ERROR)
-        node.error(error)
+        node.status(nodeStatus.ERROR('model error'))
       }
     }
 
@@ -190,17 +185,17 @@ module.exports = function (RED) {
 
       if (node.output === 'best') {
         msg.payload = [predictions[0]]
-        setNodeStatus(bestPredictionText, 'green')
+        node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
       } else if (node.output === 'all') {
         let filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
-          setNodeStatus(bestPredictionText, 'green')
+          node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
         } else {
           const statusText = 'score < ' + node.threshold + '%'
-          setNodeStatus(statusText, 'green')
+          node.status(nodeStatus.MODEL.INFERENCE(statusText))
           msg.payload = []
           node.send(msg)
           return
@@ -224,12 +219,11 @@ module.exports = function (RED) {
               if (!node.passThrough) { delete msg.image }
             }
           } else {
-            node.error('model is not ready')
+            node.status(nodeStatus.ERROR('model is not ready'))
           }
         }
       } catch (error) {
-        node.status(nodeStatus.UNKNOWN_ERROR)
-        node.error(error)
+        node.status(nodeStatus.ERROR(error))
         console.log(error)
       }
     })

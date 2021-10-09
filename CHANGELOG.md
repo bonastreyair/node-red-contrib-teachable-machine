@@ -6,8 +6,19 @@ All notable changes to this project will be documented in this file following a 
 
 ### Added
 
-- Using `pre-commit.ci` with its own badge.
-- Added code mantainability score
+- Using `pre-commit.ci` with its own badge
+- Added `Code Climate` mantainability score
+
+### Changed
+
+- Improved status node information
+  - shape:
+    - ■ `dot`: node is idle
+    - □ `ring`: node is working
+  - color:
+    - 🟩 `green`: model is available
+    - 🟨 `yellow`: preparing model
+    - 🟥 `red`: node error
 
 ### Fixed
 

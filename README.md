@@ -56,6 +56,19 @@ Paste the saved URL into the node configuration. That URL hosts all the informat
 
 In `Node-RED` send a buffered image (jpeg or png) to the node. Check the example in the `Import` section.
 
+## Node Status Information
+
+### Shape
+
+- ■ `dot`: node is idle
+- □ `ring`: node is working
+
+### Color
+
+- 🟩 `green`: model is available
+- 🟨 `yellow`: preparing model
+- 🟥 `red`: node error
+
 ## Requirements
 
 - `Node-RED v2.0.0+`
