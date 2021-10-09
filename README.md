@@ -1,13 +1,15 @@
 # node-red-contrib-teachable-machine
 
-[![Node-RED node](https://img.shields.io/badge/Node--RED-node-red?logo=node-red&style=flat-square)](https://nodered.org)
-[![Test CI](https://img.shields.io/github/workflow/status/bonastreyair/node-red-contrib-teachable-machine/CI?label=test&logo=github&style=flat-square)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/actions?workflow=CI)
-[![npm latest release](https://img.shields.io/npm/v/node-red-contrib-teachable-machine?logo=npm&style=flat-square)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
-[![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine?style=flat-square)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
-[![Package Quality](https://packagequality.com/shield/node-red-contrib-teachable-machine.svg?style=flat-square)](https://packagequality.com/#?package=node-red-contrib-teachable-machine)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square&color=yellow)](https://standardjs.com)
-[![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine?style=flat-square&color=blue)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
-[![donate PayPal](https://img.shields.io/badge/donate-PayPal-blue?style=flat-square)](https://www.paypal.me/bonastreyair)
+[![Node-RED node](https://img.shields.io/badge/Node--RED-node-red?logo=node-red)](https://nodered.org)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/bonastreyair/node-red-contrib-teachable-machine/main.svg)](https://results.pre-commit.ci/latest/github/bonastreyair/node-red-contrib-teachable-machine/main)
+[![CI](https://img.shields.io/github/workflow/status/bonastreyair/node-red-contrib-teachable-machine/CI?label=test&logo=github)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/actions?workflow=CI)
+[![npm latest release](https://img.shields.io/npm/v/node-red-contrib-teachable-machine?logo=npm)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
+[![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
+[![Package Quality](https://packagequality.com/shield/node-red-contrib-teachable-machine.svg)](https://packagequality.com/#?package=node-red-contrib-teachable-machine)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?color=yellow&logo=JavaScript&logoColor=white)](https://standardjs.com)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/bonastreyair/node-red-contrib-teachable-machine?logo=codeclimate)](https://codeclimate.com/github/bonastreyair/node-red-contrib-teachable-machine/maintainability)
+[![GitHub license](https://img.shields.io/github/license/bonastreyair/node-red-contrib-teachable-machine?color=blue)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/master/LICENSE)
+[![donate PayPal](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.me/bonastreyair)
 
 A [Node-RED](https://nodered.org) node based in [tensorflow.js](https://www.tensorflow.org/js) that enables to run custom image classification trained models using [Teachable Machine](https://teachablemachine.withgoogle.com/train/image) tool. All notable changes to this project will be documented in the [CHANGELOG.md](https://github.com/bonastreyair/node-red-contrib-teachable-machine/blob/main/CHANGELOG.md) file.
 
@@ -52,7 +54,20 @@ Paste the saved URL into the node configuration. That URL hosts all the informat
 
 ### Step 4
 
-In `Node-RED` send a buffered image to the node. Check the example in the `Import` section.
+In `Node-RED` send a buffered image (jpeg or png) to the node. Check the example in the `Import` section.
+
+## Node Status Information
+
+### Shape
+
+- ■ `dot`: node is idle
+- □ `ring`: node is working
+
+### Color
+
+- 🟩 `green`: model is available
+- 🟨 `yellow`: preparing model
+- 🟥 `red`: node error
 
 ## Requirements
 

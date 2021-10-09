@@ -5,29 +5,19 @@ module.exports = function (RED) {
   const tf = require('@tensorflow/tfjs')
   const PImage = require('pureimage')
 
-  function setNodeStatus (node, status) {
-    switch (status) {
-      case 'modelReady':
-        node.status({ fill: 'green', shape: 'dot', text: 'ready' })
-        break
-      case 'modelLoading':
-        node.status({ fill: 'yellow', shape: 'ring', text: 'loading model...' })
-        break
-      case 'inferencing':
-        node.status({ fill: 'blue', shape: 'ring', text: 'inferencing...' })
-        break
-      case 'modelError':
-        node.status({ fill: 'red', shape: 'dot', text: 'model error' })
-        break
-      case 'error':
-        node.status({ fill: 'red', shape: 'dot', text: 'error' })
-        break
-      case 'close':
-        node.status({})
-        break
-      default:
-        node.status({ fill: 'grey', shape: 'dot', text: status })
+  function isPng (buffer) {
+    if (!buffer || buffer.length < 8) {
+      return false
     }
+
+    return buffer[0] === 0x89 &&
+      buffer[1] === 0x50 &&
+      buffer[2] === 0x4E &&
+      buffer[3] === 0x47 &&
+      buffer[4] === 0x0D &&
+      buffer[5] === 0x0A &&
+      buffer[6] === 0x1A &&
+      buffer[7] === 0x0A
   }
 
   function teachableMachine (config) {
@@ -47,14 +37,30 @@ module.exports = function (RED) {
 
     const node = this
 
+    const nodeStatus = {
+      MODEL: {
+        LOADING: { fill: 'yellow', shape: 'ring', text: 'loading...' },
+        RELOADING: { fill: 'yellow', shape: 'ring', text: 'reloading...' },
+        READY: { fill: 'green', shape: 'dot', text: 'ready' },
+        INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
+        INFERENCE: (text) => { return { fill: 'green', shape: 'dot', text: text } }
+      },
+      ERROR: (text) => { node.error(text); return { fill: 'red', shape: 'dot', text: text } },
+      CLOSE: {}
+    }
+
     // Loads the Model from an Teachable Machine URL
     async function loadModel () {
-      setNodeStatus(node, 'modelLoading')
+      if (!node.ready) {
+        node.status(nodeStatus.MODEL.LOADING)
+      } else {
+        node.status(nodeStatus.MODEL.RELOADING)
+      }
       try {
         node.ready = false
         if (node.mode === 'online') {
           if (node.modelUrl === '') {
-            setNodeStatus(node, 'set a New URL')
+            node.status(nodeStatus.ERROR('missing model url'))
             return
           } else {
             const modelURL = node.modelUrl + 'model.json'
@@ -64,14 +70,13 @@ module.exports = function (RED) {
             node.model = await tf.loadLayersModel(modelURL)
           }
         } else {
-          setNodeStatus(node, 'mode not supported')
+          node.status(nodeStatus.ERROR('mode not supported'))
           return
         }
         node.ready = true
-        setNodeStatus(node, 'modelReady')
+        node.status(nodeStatus.MODEL.READY)
       } catch (error) {
-        setNodeStatus(node, 'modelError')
-        node.error(error)
+        node.status(nodeStatus.ERROR('model error'))
       }
     }
 
@@ -143,8 +148,16 @@ module.exports = function (RED) {
           this.push(null)
         }
       })
-
       return readableInstanceStream
+    }
+
+    async function decodeBuffer (image) {
+      const stream = bufferToStream(image)
+      if (isPng(image)) {
+        return await PImage.decodePNGFromStream(stream)
+      } else {
+        return await PImage.decodeJPEGFromStream(stream)
+      }
     }
 
     /**
@@ -152,9 +165,16 @@ module.exports = function (RED) {
      * @param msg message of the node-red
      */
     async function inference (msg) {
-      setNodeStatus(node, 'inferencing')
+      node.status(nodeStatus.MODEL.INFERENCING)
 
-      const imageBitmap = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
+      let imageBitmap
+      try {
+        imageBitmap = await decodeBuffer(msg.image)
+      } catch (error) {
+        node.error(error)
+        node.status(nodeStatus.MODEL.READY)
+        return
+      }
 
       const logits = await predict(imageBitmap)
 
@@ -165,17 +185,17 @@ module.exports = function (RED) {
 
       if (node.output === 'best') {
         msg.payload = [predictions[0]]
-        setNodeStatus(node, bestPredictionText)
+        node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
       } else if (node.output === 'all') {
         let filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
-          setNodeStatus(node, bestPredictionText)
+          node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
         } else {
           const statusText = 'score < ' + node.threshold + '%'
-          setNodeStatus(node, statusText)
+          node.status(nodeStatus.MODEL.INFERENCE(statusText))
           msg.payload = []
           node.send(msg)
           return
@@ -199,16 +219,18 @@ module.exports = function (RED) {
               if (!node.passThrough) { delete msg.image }
             }
           } else {
-            node.error('model is not ready')
+            node.status(nodeStatus.ERROR('model is not ready'))
           }
         }
       } catch (error) {
-        node.error(error)
+        node.status(nodeStatus.ERROR(error))
         console.log(error)
       }
     })
 
-    node.on('close', function () { setNodeStatus(node, 'close') })
+    node.on('close', function () {
+      node.status(nodeStatus.CLOSE)
+    })
   }
   RED.nodes.registerType('teachable machine', teachableMachine)
 }

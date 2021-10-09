@@ -1,0 +1,90 @@
+[
+  {
+    "id": "456d4286.6d5b2c",
+    "type": "debug",
+    "z": "17514116325f40c5",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "x": 650,
+    "y": 540,
+    "wires": []
+  },
+  {
+    "id": "91ebc5b6.8ccdd8",
+    "type": "teachable machine",
+    "z": "17514116325f40c5",
+    "name": "",
+    "mode": "online",
+    "modelUrl": "https://teachablemachine.withgoogle.com/models/49PRz_c_9/",
+    "localModel": "teachable_model",
+    "output": "best",
+    "activeThreshold": false,
+    "threshold": 80,
+    "activeMaxResults": false,
+    "maxResults": 3,
+    "passThrough": true,
+    "x": 490,
+    "y": 540,
+    "wires": [
+      [
+        "456d4286.6d5b2c"
+      ]
+    ]
+  },
+  {
+    "id": "01e26608fa047b50",
+    "type": "camera",
+    "z": "17514116325f40c5",
+    "name": "",
+    "x": 310,
+    "y": 540,
+    "wires": [
+      [
+        "91ebc5b6.8ccdd8"
+      ]
+    ]
+  },
+  {
+    "id": "e5021a59647a2f5e",
+    "type": "fileinject",
+    "z": "17514116325f40c5",
+    "name": "",
+    "x": 300,
+    "y": 580,
+    "wires": [
+      [
+        "91ebc5b6.8ccdd8"
+      ]
+    ]
+  },
+  {
+    "id": "309069d9154be5ef",
+    "type": "inject",
+    "z": "17514116325f40c5",
+    "name": "reload",
+    "props": [
+      {
+        "p": "reload",
+        "v": "true",
+        "vt": "bool"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 310,
+    "y": 500,
+    "wires": [
+      [
+        "91ebc5b6.8ccdd8"
+      ]
+    ]
+  }
+]

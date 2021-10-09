@@ -8,12 +8,15 @@ on:
   pull_request:
 
 jobs:
-  pre-commit:
+  install:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Install pre-commit
-      run: pip install pre-commit
-    - name: Run pre-commit
-      run: pre-commit run --all-files
+    - name: Setup node
+      uses: actions/setup-node@v2.4.1
+      with:
+        node-version: 12
+        registry-url: https://registry.npmjs.org/
+    - name: npm install
+      run: npm install
