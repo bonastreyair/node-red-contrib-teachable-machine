@@ -177,7 +177,14 @@ module.exports = function (RED) {
     async function inference (msg) {
       setNodeStatus(node, 'inferencing')
 
-      const imageBitmap = await decodeBuffer(msg.image)
+      let imageBitmap
+      try {
+        imageBitmap = await decodeBuffer(msg.image)
+      } catch (error) {
+        node.error(error)
+        setNodeStatus(node, 'modelReady')
+        return
+      }
 
       const logits = await predict(imageBitmap)
 
