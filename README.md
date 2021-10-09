@@ -54,7 +54,7 @@ Paste the saved URL into the node configuration. That URL hosts all the informat
 
 ### Step 4
 
-In `Node-RED` send a buffered image to the node. Check the example in the `Import` section.
+In `Node-RED` send a buffered image (jpeg or png) to the node. Check the example in the `Import` section.
 
 ## Requirements
 
