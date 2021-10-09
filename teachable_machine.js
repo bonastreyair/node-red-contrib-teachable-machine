@@ -30,6 +30,21 @@ module.exports = function (RED) {
     }
   }
 
+  function isPng (buffer) {
+    if (!buffer || buffer.length < 8) {
+      return false
+    }
+
+    return buffer[0] === 0x89 &&
+      buffer[1] === 0x50 &&
+      buffer[2] === 0x4E &&
+      buffer[3] === 0x47 &&
+      buffer[4] === 0x0D &&
+      buffer[5] === 0x0A &&
+      buffer[6] === 0x1A &&
+      buffer[7] === 0x0A
+  }
+
   function teachableMachine (config) {
     /* Node-RED Node Code Creation */
     RED.nodes.createNode(this, config)
@@ -143,8 +158,16 @@ module.exports = function (RED) {
           this.push(null)
         }
       })
-
       return readableInstanceStream
+    }
+
+    async function decodeBuffer (image) {
+      const stream = bufferToStream(image)
+      if (isPng(image)) {
+        return await PImage.decodePNGFromStream(stream)
+      } else {
+        return await PImage.decodeJPEGFromStream(stream)
+      }
     }
 
     /**
@@ -154,7 +177,7 @@ module.exports = function (RED) {
     async function inference (msg) {
       setNodeStatus(node, 'inferencing')
 
-      const imageBitmap = await PImage.decodeJPEGFromStream(bufferToStream(msg.image))
+      const imageBitmap = await decodeBuffer(msg.image)
 
       const logits = await predict(imageBitmap)
 
