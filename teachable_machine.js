@@ -5,29 +5,16 @@ module.exports = function (RED) {
   const tf = require('@tensorflow/tfjs')
   const PImage = require('pureimage')
 
-  function setNodeStatus (node, status) {
-    switch (status) {
-      case 'modelReady':
-        node.status({ fill: 'green', shape: 'dot', text: 'ready' })
-        break
-      case 'modelLoading':
-        node.status({ fill: 'yellow', shape: 'ring', text: 'loading model...' })
-        break
-      case 'inferencing':
-        node.status({ fill: 'blue', shape: 'ring', text: 'inferencing...' })
-        break
-      case 'modelError':
-        node.status({ fill: 'red', shape: 'dot', text: 'model error' })
-        break
-      case 'error':
-        node.status({ fill: 'red', shape: 'dot', text: 'error' })
-        break
-      case 'close':
-        node.status({})
-        break
-      default:
-        node.status({ fill: 'grey', shape: 'dot', text: status })
-    }
+  const nodeStatus = {
+    MODEL: {
+      LOADING: { fill: 'yellow', shape: 'ring', text: 'loading model...' },
+      RELOADING: { fill: 'yellow', shape: 'ring', text: 'reloading model...' },
+      READY: { fill: 'green', shape: 'dot', text: 'ready' },
+      INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
+      ERROR: { fill: 'red', shape: 'dot', text: 'model error' }
+    },
+    UNKNOWN_ERROR: { fill: 'red', shape: 'dot', text: 'unknown error' },
+    CLOSE: {}
   }
 
   function isPng (buffer) {
@@ -62,14 +49,22 @@ module.exports = function (RED) {
 
     const node = this
 
+    function setNodeStatus (status, color = 'grey') {
+      node.status({ fill: color, shape: 'dot', text: status })
+    }
+
     // Loads the Model from an Teachable Machine URL
     async function loadModel () {
-      setNodeStatus(node, 'modelLoading')
+      if (!node.ready) {
+        node.status(nodeStatus.MODEL.LOADING)
+      } else {
+        node.status(nodeStatus.MODEL.RELOADING)
+      }
       try {
         node.ready = false
         if (node.mode === 'online') {
           if (node.modelUrl === '') {
-            setNodeStatus(node, 'set a New URL')
+            setNodeStatus('set a New URL')
             return
           } else {
             const modelURL = node.modelUrl + 'model.json'
@@ -79,13 +74,13 @@ module.exports = function (RED) {
             node.model = await tf.loadLayersModel(modelURL)
           }
         } else {
-          setNodeStatus(node, 'mode not supported')
+          setNodeStatus('mode not supported', 'red')
           return
         }
         node.ready = true
-        setNodeStatus(node, 'modelReady')
+        node.status(nodeStatus.MODEL.READY)
       } catch (error) {
-        setNodeStatus(node, 'modelError')
+        node.status(nodeStatus.MODEL.ERROR)
         node.error(error)
       }
     }
@@ -175,14 +170,14 @@ module.exports = function (RED) {
      * @param msg message of the node-red
      */
     async function inference (msg) {
-      setNodeStatus(node, 'inferencing')
+      node.status(nodeStatus.MODEL.INFERENCING)
 
       let imageBitmap
       try {
         imageBitmap = await decodeBuffer(msg.image)
       } catch (error) {
         node.error(error)
-        setNodeStatus(node, 'modelReady')
+        node.status(nodeStatus.MODEL.READY)
         return
       }
 
@@ -195,17 +190,17 @@ module.exports = function (RED) {
 
       if (node.output === 'best') {
         msg.payload = [predictions[0]]
-        setNodeStatus(node, bestPredictionText)
+        setNodeStatus(bestPredictionText, 'green')
       } else if (node.output === 'all') {
         let filteredPredictions = predictions
         filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
         filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
-          setNodeStatus(node, bestPredictionText)
+          setNodeStatus(bestPredictionText, 'green')
         } else {
           const statusText = 'score < ' + node.threshold + '%'
-          setNodeStatus(node, statusText)
+          setNodeStatus(statusText, 'green')
           msg.payload = []
           node.send(msg)
           return
@@ -233,12 +228,15 @@ module.exports = function (RED) {
           }
         }
       } catch (error) {
+        node.status(nodeStatus.UNKNOWN_ERROR)
         node.error(error)
         console.log(error)
       }
     })
 
-    node.on('close', function () { setNodeStatus(node, 'close') })
+    node.on('close', function () {
+      node.status(nodeStatus.CLOSE)
+    })
   }
   RED.nodes.registerType('teachable machine', teachableMachine)
 }
