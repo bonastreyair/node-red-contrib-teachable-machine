@@ -23,19 +23,12 @@ module.exports = function (RED) {
   function teachableMachine (config) {
     /* Node-RED Node Code Creation */
     RED.nodes.createNode(this, config)
-
-    this.mode = config.mode
-    this.modelUrl = config.modelUrl
-    this.localModel = config.localModel
-    this.activeThreshold = config.activeThreshold
-    this.threshold = config.threshold
-    this.activeMaxResults = config.activeMaxResults
-    this.maxResults = config.maxResults
-    this.output = config.output
-    this.passThrough = config.passThrough
-    this.classes = []
-
     const node = this
+
+    node.ready = false
+
+    node.model = null
+    node.classes = []
 
     const nodeStatus = {
       MODEL: {
@@ -58,13 +51,13 @@ module.exports = function (RED) {
       }
       try {
         node.ready = false
-        if (node.mode === 'online') {
-          if (node.modelUrl === '') {
+        if (config.mode === 'online') {
+          if (config.modelUrl === '') {
             node.status(nodeStatus.ERROR('missing model url'))
             return
           } else {
-            const modelURL = node.modelUrl + 'model.json'
-            const response = await fetch(node.modelUrl + 'metadata.json')
+            const modelURL = config.modelUrl + 'model.json'
+            const response = await fetch(config.modelUrl + 'metadata.json')
             const body = await response.text()
             node.classes = JSON.parse(body).labels
             node.model = await tf.loadLayersModel(modelURL)
@@ -183,18 +176,18 @@ module.exports = function (RED) {
       const bestProbability = predictions[0].score.toFixed(2) * 100
       const bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
 
-      if (node.output === 'best') {
+      if (config.output === 'best') {
         msg.payload = [predictions[0]]
         node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
-      } else if (node.output === 'all') {
+      } else if (config.output === 'all') {
         let filteredPredictions = predictions
-        filteredPredictions = node.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > node.threshold / 100) : filteredPredictions
-        filteredPredictions = node.activeMaxResults ? filteredPredictions.slice(0, node.maxResults) : filteredPredictions
+        filteredPredictions = config.activeThreshold ? filteredPredictions.filter(prediction => prediction.score > config.threshold / 100) : filteredPredictions
+        filteredPredictions = config.activeMaxResults ? filteredPredictions.slice(0, config.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
           node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
         } else {
-          const statusText = 'score < ' + node.threshold + '%'
+          const statusText = 'score < ' + config.threshold + '%'
           node.status(nodeStatus.MODEL.INFERENCE(statusText))
           msg.payload = []
           node.send(msg)
@@ -216,7 +209,7 @@ module.exports = function (RED) {
             if (msg.payload) {
               msg.image = msg.payload
               inference(msg)
-              if (!node.passThrough) { delete msg.image }
+              if (!config.passThrough) { delete msg.image }
             }
           } else {
             node.status(nodeStatus.ERROR('model is not ready'))
