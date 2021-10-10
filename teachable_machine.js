@@ -25,10 +25,49 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, config)
     const node = this
 
-    node.ready = false
+    class ModelLoader {
+      constructor () {
+        this.ready = false
+        this.object = null
+        this.labels = []
+      }
 
-    node.model = null
-    node.classes = []
+      async load (url) {
+        if (this.ready) {
+          node.status(nodeStatus.MODEL.RELOADING)
+        } else {
+          node.status(nodeStatus.MODEL.LOADING)
+        }
+        this.object = await this.getModel(url)
+        this.labels = await this.getLabels(url)
+        this.ready = true
+      }
+
+      async getModel (url) {
+        throw new Error('getModel(url) needs to be implemented')
+      }
+
+      async getLabels (url) {
+        throw new Error('getLabels(url) needs to be implemented')
+      }
+    }
+
+    class OnlineModelLoader extends ModelLoader {
+      async getModel (url) {
+        return await tf.loadLayersModel(url + 'model.json')
+      }
+
+      async getLabels (url) {
+        const response = await fetch(url + 'metadata.json')
+        return JSON.parse(await response.text()).labels
+      }
+    }
+
+    const modelLoaderFactory = {
+      online: new OnlineModelLoader()
+    }
+
+    node.modelLoader = modelLoaderFactory[config.mode]
 
     const nodeStatus = {
       MODEL: {
@@ -44,33 +83,13 @@ module.exports = function (RED) {
 
     // Loads the Model from an Teachable Machine URL
     async function loadModel () {
-      if (!node.ready) {
-        node.status(nodeStatus.MODEL.LOADING)
-      } else {
-        node.status(nodeStatus.MODEL.RELOADING)
-      }
       try {
-        node.ready = false
-        if (config.mode === 'online') {
-          if (config.modelUrl === '') {
-            node.status(nodeStatus.ERROR('missing model url'))
-            return
-          } else {
-            const modelURL = config.modelUrl + 'model.json'
-            const response = await fetch(config.modelUrl + 'metadata.json')
-            const body = await response.text()
-            node.classes = JSON.parse(body).labels
-            node.model = await tf.loadLayersModel(modelURL)
-          }
-        } else {
-          node.status(nodeStatus.ERROR('mode not supported'))
-          return
-        }
-        node.ready = true
-        node.status(nodeStatus.MODEL.READY)
+        await node.modelLoader.load(config.modelUrl)
       } catch (error) {
+        console.error(error)
         node.status(nodeStatus.ERROR('model error'))
       }
+      node.status(nodeStatus.MODEL.READY)
     }
 
     /**
@@ -81,17 +100,17 @@ module.exports = function (RED) {
       const logits = tf.tidy(() => {
         // tf.browser.fromPixels() returns a Tensor from an image element.
         let img = tf.browser.fromPixels(imgElement).toFloat()
-        img = tf.image.resizeNearestNeighbor(img, [node.model.inputs[0].shape[1], node.model.inputs[0].shape[2]])
+        img = tf.image.resizeNearestNeighbor(img, [node.modelLoader.object.inputs[0].shape[1], node.modelLoader.object.inputs[0].shape[2]])
 
         const offset = tf.scalar(127.5)
         // Normalize the image from [0, 255] to [-1, 1].
         const normalized = img.sub(offset).div(offset)
 
         // Reshape to a single-element batch so we can pass it to predict.
-        const batched = normalized.reshape([1, node.model.inputs[0].shape[1], node.model.inputs[0].shape[2], node.model.inputs[0].shape[3]])
+        const batched = normalized.reshape([1, node.modelLoader.object.inputs[0].shape[1], node.modelLoader.object.inputs[0].shape[2], node.modelLoader.object.inputs[0].shape[3]])
 
         // Make a prediction through mobilenet.
-        return node.model.predict(batched)
+        return node.modelLoader.object.predict(batched)
       })
       return logits
     }
@@ -123,7 +142,7 @@ module.exports = function (RED) {
       const topClassesAndProbs = []
       for (let i = 0; i < topkIndices.length; i++) {
         topClassesAndProbs.push({
-          class: node.classes[topkIndices[i]],
+          class: node.modelLoader.labels[topkIndices[i]],
           score: topkValues[i]
         })
       }
@@ -171,7 +190,7 @@ module.exports = function (RED) {
 
       const logits = await predict(imageBitmap)
 
-      const predictions = await getTopKClasses(logits, node.classes.length)
+      const predictions = await getTopKClasses(logits, node.modelLoader.labels.length)
 
       const bestProbability = predictions[0].score.toFixed(2) * 100
       const bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
@@ -195,7 +214,7 @@ module.exports = function (RED) {
         }
         msg.payload = filteredPredictions
       }
-      msg.classes = node.classes
+      msg.classes = node.modelLoader.labels
       node.send(msg)
     }
 
@@ -205,7 +224,7 @@ module.exports = function (RED) {
       try {
         if (node.modelUrl !== '') {
           if (msg.reload) { loadModel(); return }
-          if (node.ready) {
+          if (node.modelLoader.ready) {
             if (msg.payload) {
               msg.image = msg.payload
               inference(msg)
