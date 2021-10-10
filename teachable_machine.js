@@ -30,8 +30,11 @@ module.exports = function (RED) {
         LOADING: { fill: 'yellow', shape: 'ring', text: 'loading...' },
         RELOADING: { fill: 'yellow', shape: 'ring', text: 'reloading...' },
         READY: { fill: 'green', shape: 'dot', text: 'ready' },
+        DECODING: { fill: 'green', shape: 'ring', text: 'decoding...' },
+        PREPROCESSING: { fill: 'green', shape: 'ring', text: 'preprocessing...' },
         INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
-        INFERENCE: (text) => { return { fill: 'green', shape: 'dot', text: text } }
+        POSTPROCESSING: { fill: 'green', shape: 'ring', text: 'postprocessing...' },
+        RESULT: (text) => { return { fill: 'green', shape: 'dot', text: text } }
       },
       ERROR: (text) => { node.error(text); return { fill: 'red', shape: 'dot', text: text } },
       CLOSE: {}
@@ -72,7 +75,7 @@ module.exports = function (RED) {
       }
     }
 
-    class OnlineModelLoader extends ModelManager {
+    class OnlineModelManager extends ModelManager {
       async getModel (url) {
         return await tf.loadLayersModel(url + 'model.json')
       }
@@ -84,18 +87,56 @@ module.exports = function (RED) {
     }
 
     const modelManagerFactory = {
-      online: new OnlineModelLoader()
+      online: new OnlineModelManager()
     }
 
-    node.modelManager = modelManagerFactory[config.mode]
+    function nodeInit () {
+      node.modelManager = modelManagerFactory[config.mode]
+      if (config.modelUrl !== '') {
+        loadModel(config.modelUrl)
+      }
+    }
 
-    // Preprocess an image to be later passed to a model.predict().
-    async function preprocess (image, inputModel) {
+    /**
+     * Loads the Model trained from an Teachable Machine.
+     * @param url where to load the model from
+     */
+    async function loadModel (url) {
+      try {
+        node.model = await node.modelManager.load(url)
+        node.status(nodeStatus.MODEL.READY)
+      } catch (error) {
+        node.status(nodeStatus.ERROR(error))
+      }
+    }
+
+    async function decodeImageBuffer (imageBuffer) {
+      node.status(nodeStatus.MODEL.DECODING)
+      const stream = new Readable({
+        read () {
+          this.push(imageBuffer)
+          this.push(null)
+        }
+      })
+      if (isPng(imageBuffer)) {
+        return await PImage.decodePNGFromStream(stream)
+      } else {
+        return await PImage.decodeJPEGFromStream(stream)
+      }
+    }
+
+    /**
+     * Preprocess an image to be later passed to a model.predict().
+     * @param image image in a bitmap format
+     * @param inputShape input shape object of the model that contains height, width and channels
+     */
+    async function preprocess (image, inputShape) {
+      node.status(nodeStatus.MODEL.PREPROCESSING)
       return tf.tidy(() => {
         // tf.browser.fromPixels() returns a Tensor from an image element.
         const resizedImage = tf.image.resizeNearestNeighbor(
           tf.browser.fromPixels(image).toFloat(),
-          [inputModel.height, inputModel.width]
+          [inputShape.height, inputShape.width]
         )
 
         // Normalize the image from [0, 255] to [-1, 1].
@@ -103,19 +144,26 @@ module.exports = function (RED) {
         const normalizedImage = resizedImage.sub(offset).div(offset)
 
         // Reshape to a single-element batch so we can pass it to predict.
-        return normalizedImage.reshape([1, inputModel.height, inputModel.width, inputModel.channels])
+        return normalizedImage.reshape([1, inputShape.height, inputShape.width, inputShape.channels])
       })
     }
 
-    // Loads the Model from an Teachable Machine URL
-    async function loadModel () {
+    /**
+     * Infers an image buffer to obtain classification predictions.
+     * @param imageBuffer image buffer in png or jpeg format
+     * @returns outputs of the model
+     */
+    async function inferImageBuffer (imageBuffer) {
+      let image
       try {
-        node.model = await node.modelManager.load(config.modelUrl)
-        node.status(nodeStatus.MODEL.READY)
+        image = await decodeImageBuffer(imageBuffer)
       } catch (error) {
-        console.error(error)
-        node.status(nodeStatus.ERROR('model error'))
+        node.error(error)
+        return null
       }
+      const inputs = await preprocess(image, node.modelManager.input)
+      node.status(nodeStatus.MODEL.INFERENCING)
+      return await node.model.predict(inputs)
     }
 
     /**
@@ -153,57 +201,18 @@ module.exports = function (RED) {
     }
 
     /**
-     * @param binary Buffer
-     * returns readableInstanceStream Readable
+     * Post processes the outputs depending on the node configuration.
+     * @param outputs
+     * @returns a list of predictions
      */
-    function bufferToStream (binary) {
-      const readableInstanceStream = new Readable({
-        read () {
-          this.push(binary)
-          this.push(null)
-        }
-      })
-      return readableInstanceStream
-    }
-
-    async function decodeBuffer (image) {
-      const stream = bufferToStream(image)
-      if (isPng(image)) {
-        return await PImage.decodePNGFromStream(stream)
-      } else {
-        return await PImage.decodeJPEGFromStream(stream)
-      }
-    }
-
-    /**
-     * Converts the image, makes inference and treats predictions
-     * @param msg message of the node-red
-     */
-    async function inference (imageBuffer) {
-      node.status(nodeStatus.MODEL.INFERENCING)
-
-      let image
-      try {
-        image = await decodeBuffer(imageBuffer)
-      } catch (error) {
-        node.error(error)
-        node.status(nodeStatus.MODEL.READY)
-        return
-      }
-
-      const batch = await preprocess(image, node.modelManager.input)
-      const logits = await node.model.predict(batch)
-      return await postprocess(logits)
-    }
-
-    async function postprocess (logits) {
-      const predictions = await getTopKClasses(logits, node.modelManager.labels.length)
+    async function postprocess (outputs) {
+      const predictions = await getTopKClasses(outputs, node.modelManager.labels.length)
 
       const bestProbability = predictions[0].score.toFixed(2) * 100
       const bestPredictionText = bestProbability.toString() + '% - ' + predictions[0].class
 
       if (config.output === 'best') {
-        node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
+        node.status(nodeStatus.MODEL.RESULT(bestPredictionText))
         return [predictions[0]]
       } else if (config.output === 'all') {
         let filteredPredictions = predictions
@@ -211,37 +220,29 @@ module.exports = function (RED) {
         filteredPredictions = config.activeMaxResults ? filteredPredictions.slice(0, config.maxResults) : filteredPredictions
 
         if (filteredPredictions.length > 0) {
-          node.status(nodeStatus.MODEL.INFERENCE(bestPredictionText))
+          node.status(nodeStatus.MODEL.RESULT(bestPredictionText))
         } else {
           const statusText = 'score < ' + config.threshold + '%'
-          node.status(nodeStatus.MODEL.INFERENCE(statusText))
+          node.status(nodeStatus.MODEL.RESULT(statusText))
           return []
         }
         return filteredPredictions
       }
     }
 
-    loadModel()
+    /* Main Node Logic */
+
+    nodeInit()
 
     node.on('input', async function (msg) {
-      try {
-        if (node.modelUrl !== '') {
-          if (msg.reload) { loadModel(); return }
-          if (node.modelManager.ready) {
-            if (msg.payload) {
-              if (config.passThrough) { msg.image = msg.payload }
-              msg.payload = await inference(msg.payload)
-              msg.classes = node.modelManager.labels
-              node.send(msg)
-            }
-          } else {
-            node.status(nodeStatus.ERROR('model is not ready'))
-          }
-        }
-      } catch (error) {
-        node.status(nodeStatus.ERROR(error))
-        console.log(error)
-      }
+      if (msg.reload) { await loadModel(config.modelUrl); return }
+      if (!node.modelManager.ready) { node.status(nodeStatus.ERROR('model not ready')); return }
+      if (config.passThrough) { msg.image = msg.payload }
+      const outputs = await inferImageBuffer(msg.payload)
+      if (outputs === null) { node.status(nodeStatus.MODEL.READY); return }
+      msg.payload = await postprocess(outputs)
+      msg.classes = node.modelManager.labels
+      node.send(msg)
     })
 
     node.on('close', function () {
