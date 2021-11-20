@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file following a 
 ### Changed
 
 - Improved code structure
+- Upgraded `node-fetch` to version `3.1.0`
+- Upgraded `pureimage` to version `0.3.6`
 
 ## [1.3.1] - 2021-10-09
 
