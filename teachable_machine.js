@@ -34,9 +34,9 @@ module.exports = function (RED) {
         PREPROCESSING: { fill: 'green', shape: 'ring', text: 'preprocessing...' },
         INFERENCING: { fill: 'green', shape: 'ring', text: 'inferencing...' },
         POSTPROCESSING: { fill: 'green', shape: 'ring', text: 'postprocessing...' },
-        RESULT: (text) => { return { fill: 'green', shape: 'dot', text: text } }
+        RESULT: (text) => { return { fill: 'green', shape: 'dot', text } }
       },
-      ERROR: (text) => { node.error(text); return { fill: 'red', shape: 'dot', text: text } },
+      ERROR: (text) => { node.error(text); return { fill: 'red', shape: 'dot', text } },
       CLOSE: {}
     }
 
