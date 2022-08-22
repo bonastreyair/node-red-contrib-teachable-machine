@@ -15,11 +15,11 @@ repos:
   hooks:
   - id: standard
 - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  rev: 0.2.1
+  rev: 0.2.2
   hooks:
   - id: yamlfmt
     args: [--mapping, '2', --sequence, '2', --offset, '0']
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.14
+  rev: 0.7.15
   hooks:
   - id: mdformat
