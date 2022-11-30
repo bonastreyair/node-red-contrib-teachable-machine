@@ -8,19 +8,10 @@
         </select>
     </div>
 
-    <div class="node-row-msg-online">
-        <div class="form-row node-row-online">
-            <label for="node-input-modelUrl"><i class="fa fa-globe" style="margin-right: 6px;"></i>Url</label>
-            <input type="text" id="node-input-modelUrl" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
-        </div>
-    </div>
-
-    <div class="node-row-msg-local">
-        <div class="form-row node-row-local">
-            <label for="node-input-localModel"><i class="fa fa-floppy-o" style="margin-right: 6px;"></i>Model</label>
-                <select style="width: 160px;" type="text" id="node-input-localModel">
-                    <option value="teachable_model" selected>Not supported yet</option>
-                </select>
+    <div class="node-row-msg-modelUri">
+        <div class="form-row node-row-modelUri">
+            <label for="node-input-modelUri"><i class="fa fa-link" style="margin-right: 6px;"></i>URI</label>
+            <input type="text" id="node-input-modelUri" placeholder="https://teachablemachine.withgoogle.com/model/[...]">
         </div>
     </div>
 
@@ -90,8 +81,8 @@
     <h4><i class="fa fa-file" style="margin-right: 6px"></i>Mode</h4>
         <p>You can configure how to load the model.</p>
         <ul>
-            <li><code>Online</code> from the pasted URL</li>
-            <li><code>Local</code> locally with files <i>(not supported)</li>
+            <li><code>Online</code> from the teachable machine URL</li>
+            <li><code>Local</code> from the local URI (where the model.json, metadata.json and model.weights.bin exist)</li>
         </ul>
         <p>If you select the <code>Online</code> mode, you must set the URL obtained from the uploaded model in the <a href="https://teachablemachine.withgoogle.com" target = "_new">Teachable Machine</a> webpage.</p>
 
@@ -118,7 +109,7 @@
     defaults: {
         name: { value: '' },
         mode: { value: 'online' },
-        modelUrl: { value: '', required: true },
+        modelUri: { value: '', required: true },
         localModel: { value: 'teachable_model' },
         output: { value: 'best', required: true },
         activeThreshold: { value: false },
@@ -136,11 +127,6 @@
     oneditprepare: function() {
         $("#node-input-threshold").spinner({ min: 0, max: 100})
         $("#node-input-maxResults").spinner({ min: 1, max: 5})
-        $("#node-input-mode").on("change", function(e) {
-            var val = $(this).val()
-            $(".node-row-msg-online").toggle(val==="online")
-            $(".node-row-msg-local").toggle(val==="local")
-        })
         $("#node-input-output").on("change", function(e) {
             var val = $(this).val()
             $(".node-row-msg-filters").toggle(val==="all")

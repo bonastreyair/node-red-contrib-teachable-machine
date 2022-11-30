@@ -2,13 +2,19 @@
 
 All notable changes to this project will be documented in this file following a [Semantic Versioning](https://semver.org/spec/v2.0.0.html). The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [1.4.0] - 2022-11-30
+
+### Added
+
+- Local Mode Support
 
 ### Changed
 
 - Improved code structure
-- Upgraded `node-fetch` to version `3.1.0`
-- Upgraded `pureimage` to version `0.3.6`
+- Upgrade pre-commit dependencies
+- Dependency change from `@tensorflow/tfjs` to `@tensorflow/tfjs-node`
+- Upgraded `node-fetch` to version `3.3.0`
+- Upgraded `pureimage` to version `0.3.14`
 
 ## [1.3.1] - 2021-10-09
 
@@ -243,3 +249,4 @@ All notable changes to this project will be documented in this file following a 
 [1.2.2]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.1...v1.2.2
 [1.3.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.2.2...v1.3.0
 [1.3.1]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.3.0...v1.3.1
+[1.4.0]: https://github.com/bonastreyair/node-red-contrib-teachable-machine/compare/v1.3.1...v1.4.0
