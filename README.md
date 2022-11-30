@@ -46,11 +46,25 @@ Select `Tensorflow.js` format and upload your trained model (for free). Once it 
 
 ![use_teachable_machine](https://user-images.githubusercontent.com/37800834/79056723-8431a100-7c59-11ea-9488-346f4f8e6004.png)
 
+Once the URL is generated it will show the stored files.
+
+![model_files](https://user-images.githubusercontent.com/37800834/204745026-40cf7cec-6775-4e78-a454-4c82271d613f.png)
+
 ### Step 3
 
-Paste the saved URL into the node configuration. That URL hosts all the information to load your trained model. Make sure you copy all the given URL including the `https://...`.
+#### **Online Mode**
 
-![config](https://user-images.githubusercontent.com/37800834/80922980-e8d7ab80-8d80-11ea-8c0c-89d1008455da.png)
+Select Online Mode and paste the saved URL in the node configuration. That URL hosts all the information to load your trained model. Make sure you copy all the given URL including the `https://...` and the `/` in the end.
+
+![online-config](https://user-images.githubusercontent.com/37800834/204746402-2551eb8c-576c-40fa-a250-7f0f93a9d670.png)
+
+#### **Local Mode**
+
+Download all three files from the generated URL and save them locally in a folder maintaning the original filenames.
+
+Select Local Mode and write down the absolute path of the folder that contain the three downloaded files in the node configuration. Make sure it ends with a `/` noting it is a folder.
+
+![local-config](https://user-images.githubusercontent.com/37800834/204746412-fafc1b81-6431-4cb3-82bb-d4a29e415108.png)
 
 ### Step 4
 

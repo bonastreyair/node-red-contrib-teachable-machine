@@ -1,8 +1,9 @@
 module.exports = function (RED) {
   /* Initial Setup */
   const { Readable } = require('stream')
+  const fs = require('fs')
   const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
-  const tf = require('@tensorflow/tfjs')
+  const tf = require('@tensorflow/tfjs-node')
   const PImage = require('pureimage')
 
   function isPng (buffer) {
@@ -46,15 +47,15 @@ module.exports = function (RED) {
         this.labels = []
       }
 
-      async load (url) {
+      async load (uri) {
         if (this.ready) {
           node.status(nodeStatus.MODEL.RELOADING)
         } else {
           node.status(nodeStatus.MODEL.LOADING)
         }
 
-        this.model = await this.getModel(url)
-        this.labels = await this.getLabels(url)
+        this.model = await this.getModel(uri)
+        this.labels = await this.getLabels(uri)
 
         this.input = {
           height: this.model.inputs[0].shape[1],
@@ -66,44 +67,56 @@ module.exports = function (RED) {
         return this.model
       }
 
-      async getModel (url) {
-        throw new Error('getModel(url) needs to be implemented')
+      async getModel (uri) {
+        throw new Error('getModel(uri) needs to be implemented')
       }
 
-      async getLabels (url) {
-        throw new Error('getLabels(url) needs to be implemented')
+      async getLabels (uri) {
+        throw new Error('getLabels(uri) needs to be implemented')
       }
     }
 
     class OnlineModelManager extends ModelManager {
-      async getModel (url) {
-        return await tf.loadLayersModel(url + 'model.json')
+      async getModel (uri) {
+        return await tf.loadLayersModel(uri + 'model.json')
       }
 
-      async getLabels (url) {
-        const response = await fetch(url + 'metadata.json')
+      async getLabels (uri) {
+        const response = await fetch(uri + 'metadata.json')
         return JSON.parse(await response.text()).labels
       }
     }
 
+    class LocalModelManager extends ModelManager {
+      async getModel (uri) {
+        return await tf.loadLayersModel('file://' + uri + 'model.json')
+      }
+
+      async getLabels (uri) {
+        const file = fs.readFileSync(uri + 'metadata.json')
+        return JSON.parse(file).labels
+      }
+    }
+
     const modelManagerFactory = {
-      online: new OnlineModelManager()
+      online: new OnlineModelManager(),
+      local: new LocalModelManager()
     }
 
     function nodeInit () {
       node.modelManager = modelManagerFactory[config.mode]
-      if (config.modelUrl !== '') {
-        loadModel(config.modelUrl)
+      if (config.modelUri !== '') {
+        loadModel(config.modelUri)
       }
     }
 
     /**
-     * Loads the Model trained from an Teachable Machine.
-     * @param url where to load the model from
+     * Loads the Model trained from the Teachable Machine web.
+     * @param uri where to load the model from
      */
-    async function loadModel (url) {
+    async function loadModel (uri) {
       try {
-        node.model = await node.modelManager.load(url)
+        node.model = await node.modelManager.load(uri)
         node.status(nodeStatus.MODEL.READY)
       } catch (error) {
         node.status(nodeStatus.ERROR(error))
@@ -235,7 +248,7 @@ module.exports = function (RED) {
     nodeInit()
 
     node.on('input', async function (msg) {
-      if (msg.reload) { await loadModel(config.modelUrl); return }
+      if (msg.reload) { await loadModel(config.modelUri); return }
       if (!node.modelManager.ready) { node.status(nodeStatus.ERROR('model not ready')); return }
       if (config.passThrough) { msg.image = msg.payload }
       const outputs = await inferImageBuffer(msg.payload)
