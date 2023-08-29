@@ -20,6 +20,6 @@ repos:
   - id: yamlfmt
     args: [--mapping, '2', --sequence, '2', --offset, '0']
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.16
+  rev: 0.7.17
   hooks:
   - id: mdformat
