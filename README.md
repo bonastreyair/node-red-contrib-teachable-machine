@@ -85,7 +85,7 @@ In `Node-RED` send a buffered image (jpeg or png) to the node. Check the example
 
 ## Requirements
 
-- `Node-RED v3.1.0+`
+- `Node-RED v2.1.0+`
 - `Node.js v16.20.0+`
 
-*Warning:* Only the official Docker `nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Debian](https://www.debian.org) image works since it needs `ld-linux-x86-64.so.2`. The library is not present in the default [Alpine](https://hub.docker.com/_/alpine) version.
+*Warning:* Only the official Docker `nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Debian](https://www.debian.org) `v3.1.0+` image works since it needs `ld-linux-x86-64.so.2`. This necessary library is not present in the default [Alpine](https://hub.docker.com/_/alpine) Docker image version.

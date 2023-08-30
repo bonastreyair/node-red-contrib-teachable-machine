@@ -7,6 +7,9 @@
     "@tensorflow/tfjs-node": "1.4.0",
     "pureimage": "0.4.8"
   },
+  "engines": {
+    "node": ">=16.20.0"
+  },
   "keywords": [
     "node-red",
     "tensorflow",
@@ -17,6 +20,7 @@
   ],
   "license": "Apache-2.0",
   "node-red": {
+    "version": ">=2.1.0",
     "nodes": {
       "teachable machine": "teachable_machine.js"
     }
