@@ -1,22 +1,19 @@
----
 name: CI
-
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
-
 jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Setup node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 12
-        registry-url: https://registry.npmjs.org/
-    - name: npm install
-      run: npm install
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: npm install
+        run: npm install
