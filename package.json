@@ -5,7 +5,7 @@
   "dependencies": {
     "node-fetch": "3.3.2",
     "@tensorflow/tfjs-node": "1.4.0",
-    "pureimage": "0.3.17"
+    "pureimage": "0.4.8"
   },
   "keywords": [
     "node-red",
