@@ -85,11 +85,7 @@ In `Node-RED` send a buffered image (jpeg or png) to the node. Check the example
 
 ## Requirements
 
-- `Node-RED v2.0.0+`
-- `Node.js v12.20.0+`
+- `Node-RED v3.1.0+`
+- `Node.js v16.20.0+`
 
-*Note:* MacOSX, Windows 10 and Ubuntu 18.04+ are supported as well as using official `docker nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Alpine](https://hub.docker.com/_/alpine) image. Works with Raspberry Pi too since release [`v1.2.0+`](https://github.com/bonastreyair/node-red-contrib-teachable-machine/tags).
-
-## Mentions
-
-- [@dceejay](https://github.com/dceejay): who inspired me thanks to node [node-red-contrib-tfjs-coco-ssd](https://github.com/dceejay/tfjs-coco-ssd/)
+*Warning:* Only the official Docker `nodered/node-red` [image](https://hub.docker.com/r/nodered/node-red/) based on [Debian](https://www.debian.org) image works since it needs `ld-linux-x86-64.so.2`. The library is not present in the default [Alpine](https://hub.docker.com/_/alpine) version.
