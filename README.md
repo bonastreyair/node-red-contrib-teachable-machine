@@ -2,7 +2,7 @@
 
 [![Node-RED node](https://img.shields.io/badge/Node--RED-node-red?logo=node-red)](https://nodered.org)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/bonastreyair/node-red-contrib-teachable-machine/main.svg)](https://results.pre-commit.ci/latest/github/bonastreyair/node-red-contrib-teachable-machine/main)
-[![CI](https://img.shields.io/github/workflow/status/bonastreyair/node-red-contrib-teachable-machine/CI?label=test&logo=github)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/actions?workflow=CI)
+[![CI](https://img.shields.io/github/actions/workflow/status/bonastreyair/node-red-contrib-teachable-machine/ci.yml?branch=main&label=CI&logo=github)](https://github.com/bonastreyair/node-red-contrib-teachable-machine/actions?workflow=CI)
 [![npm latest release](https://img.shields.io/npm/v/node-red-contrib-teachable-machine?logo=npm)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
 [![npm total downloads](https://img.shields.io/npm/dt/node-red-contrib-teachable-machine)](https://www.npmjs.com/package/node-red-contrib-teachable-machine)
 [![Package Quality](https://packagequality.com/shield/node-red-contrib-teachable-machine.svg)](https://packagequality.com/#?package=node-red-contrib-teachable-machine)
