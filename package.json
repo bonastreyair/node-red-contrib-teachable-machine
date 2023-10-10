@@ -5,7 +5,7 @@
   "dependencies": {
     "node-fetch": "3.3.2",
     "@tensorflow/tfjs-node": "4.10.0",
-    "pureimage": "0.4.9"
+    "pureimage": "0.4.10"
   },
   "engines": {
     "node": ">=16.20.0"
